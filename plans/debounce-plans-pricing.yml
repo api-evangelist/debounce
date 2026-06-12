@@ -1,0 +1,156 @@
+name: DeBounce Plans and Pricing
+description: >
+  DeBounce uses a pay-as-you-go credit-based pricing model with no monthly
+  subscription required. Credits are purchased in volume packages and never
+  expire. All features are available at every credit tier. Volume discounts
+  apply as the quantity of credits purchased increases.
+specificationVersion: '0.1'
+url: https://debounce.com/pricing/
+
+pricing:
+  model: pay-as-you-go
+  currency: USD
+  billingCycle: one-time
+  creditsExpire: false
+  contractRequired: false
+  setupFee: false
+
+plans:
+  - name: Free Starter
+    description: >
+      New users receive 100 free credits on signup with no credit card required.
+      Suitable for testing the API and evaluating validation quality.
+    cost: 0.00
+    credits: 100
+    pricePerCredit: 0.00
+    features:
+      - Single email validation
+      - Bulk validation access
+      - API access included
+      - Full feature access
+
+  - name: 5K Credits
+    description: Entry-level paid package for small-volume validation needs.
+    cost: 10.00
+    credits: 5000
+    pricePerCredit: 0.002
+    features:
+      - Single email validation
+      - Bulk email validation
+      - Data enrichment
+      - Disposable detector
+      - API access included
+      - Credits never expire
+      - No monthly subscription
+
+  - name: 50K Credits
+    description: Mid-volume package with volume discount applied.
+    cost: 40.00
+    credits: 50000
+    pricePerCredit: 0.0008
+    features:
+      - Single email validation
+      - Bulk email validation
+      - Data enrichment
+      - Disposable detector
+      - API access included
+      - Credits never expire
+      - No monthly subscription
+
+  - name: 100K Credits
+    description: High-volume package for growing businesses and marketing teams.
+    cost: 70.00
+    credits: 100000
+    pricePerCredit: 0.0007
+    features:
+      - Single email validation
+      - Bulk email validation
+      - Data enrichment
+      - Disposable detector
+      - API access included
+      - Credits never expire
+      - No monthly subscription
+
+  - name: 200K Credits
+    description: Large-volume package with deeper discounts per credit.
+    cost: 120.00
+    credits: 200000
+    pricePerCredit: 0.0006
+    features:
+      - Single email validation
+      - Bulk email validation
+      - Data enrichment
+      - Disposable detector
+      - API access included
+      - Credits never expire
+      - No monthly subscription
+
+  - name: 500K Credits
+    description: Enterprise-scale package for high-frequency validation workflows.
+    cost: 250.00
+    credits: 500000
+    pricePerCredit: 0.0005
+    features:
+      - Single email validation
+      - Bulk email validation
+      - Data enrichment
+      - Disposable detector
+      - API access included
+      - Credits never expire
+      - No monthly subscription
+
+  - name: 1M Credits
+    description: Large-scale package for organizations with significant email list volumes.
+    cost: 450.00
+    credits: 1000000
+    pricePerCredit: 0.00045
+    features:
+      - Single email validation
+      - Bulk email validation
+      - Data enrichment
+      - Disposable detector
+      - API access included
+      - Credits never expire
+      - No monthly subscription
+
+  - name: 2M Credits
+    description: Very high-volume package with maximum standard discount.
+    cost: 800.00
+    credits: 2000000
+    pricePerCredit: 0.0004
+    features:
+      - Single email validation
+      - Bulk email validation
+      - Data enrichment
+      - Disposable detector
+      - API access included
+      - Credits never expire
+      - No monthly subscription
+
+  - name: 5M Credits
+    description: Highest-volume package for enterprise and agency use cases.
+    cost: 1750.00
+    credits: 5000000
+    pricePerCredit: 0.00035
+    features:
+      - Single email validation
+      - Bulk email validation
+      - Data enrichment
+      - Disposable detector
+      - API access included
+      - Credits never expire
+      - No monthly subscription
+
+creditCosts:
+  emailValidation: 1
+  dataEnrichment: 20
+  catchAllValidation: 10
+  listMonitoring: 2x-per-list-size-monthly
+
+paymentMethods:
+  - Visa
+  - MasterCard
+  - American Express
+  - PayPal
+  - Bitcoin
+  - 40+ additional payment options by location

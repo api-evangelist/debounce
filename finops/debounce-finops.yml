@@ -1,0 +1,128 @@
+name: DeBounce FinOps
+description: >
+  FinOps Framework FOCUS-aligned cost and usage model for the DeBounce
+  email validation API. DeBounce operates on a prepaid credit system with
+  no recurring subscription fees. Costs are driven entirely by credit
+  consumption, which varies by operation type. Credits never expire, enabling
+  flexible budgeting and inventory management.
+specificationVersion: '1.0'
+url: https://debounce.com/pricing/
+
+focusAlignment:
+  version: '1.0'
+  schema: https://focus.finops.org/
+
+costModel:
+  type: prepaid-credits
+  subscriptionRequired: false
+  creditsExpire: false
+  overageModel: none
+  currency: USD
+
+skus:
+  - id: debounce-email-validation
+    name: Email Validation Credit
+    description: >
+      One credit consumed per single email address validation. Covers syntax
+      checking, MX record lookup, SMTP mailbox verification, disposable and
+      role-based email detection.
+    unitCost:
+      min: 0.00035
+      max: 0.002
+      typical: 0.00045
+    unit: per-email
+    billedOn: consumption
+
+  - id: debounce-data-enrichment
+    name: Data Enrichment Credit
+    description: >
+      Twenty credits consumed per successful data enrichment (reverse email
+      lookup) returning contact metadata such as name, gender, and email
+      attributes.
+    creditsConsumed: 20
+    unitCostEquivalent:
+      typical: 0.009
+    unit: per-successful-lookup
+    billedOn: consumption
+
+  - id: debounce-catchall-validation
+    name: Catch-All Validation Credit
+    description: >
+      Ten credits consumed per catch-all domain validation check, which
+      performs additional verification on domains configured to accept all
+      incoming email.
+    creditsConsumed: 10
+    unitCostEquivalent:
+      typical: 0.0045
+    unit: per-validation
+    billedOn: consumption
+
+  - id: debounce-list-monitoring
+    name: List Monitoring Credit
+    description: >
+      List monitoring charges 2x the list size in credits on a monthly basis
+      to continuously monitor email lists for deliverability changes.
+    creditsConsumed: 2x-list-size
+    unit: per-email-per-month
+    billedOn: monthly-recurring
+
+creditPackages:
+  - credits: 100
+    cost: 0.00
+    pricePerCredit: 0.00
+    label: Free Starter
+  - credits: 5000
+    cost: 10.00
+    pricePerCredit: 0.002
+    label: 5K
+  - credits: 50000
+    cost: 40.00
+    pricePerCredit: 0.0008
+    label: 50K
+  - credits: 100000
+    cost: 70.00
+    pricePerCredit: 0.0007
+    label: 100K
+  - credits: 200000
+    cost: 120.00
+    pricePerCredit: 0.0006
+    label: 200K
+  - credits: 500000
+    cost: 250.00
+    pricePerCredit: 0.0005
+    label: 500K
+  - credits: 1000000
+    cost: 450.00
+    pricePerCredit: 0.00045
+    label: 1M
+  - credits: 2000000
+    cost: 800.00
+    pricePerCredit: 0.0004
+    label: 2M
+  - credits: 5000000
+    cost: 1750.00
+    pricePerCredit: 0.00035
+    label: 5M
+
+costOptimization:
+  recommendations:
+    - Purchase larger credit packages to reduce per-credit cost
+    - Cache validation results to avoid re-validating known addresses
+    - Use standard validation before catch-all validation to avoid unnecessary credits
+    - Reserve data enrichment calls for high-value contacts only
+    - Monitor credit balance via API to avoid unexpected depletion
+    - Use public API key with per-IP daily limits for low-volume form validation
+      to avoid consuming private account credits
+
+budgeting:
+  model: prepaid-inventory
+  tracking: credits-remaining
+  alertMechanism: credit-balance-in-response-headers
+  refillStrategy: manual-purchase
+
+usageVisibility:
+  dashboard: true
+  apiEndpoint: true
+  responseHeaders:
+    - X-Credits-Remaining
+  documentation: https://developers.debounce.com/

@@ -1,0 +1,81 @@
+aid: debounce
+name: DeBounce
+description: >
+  DeBounce is an email validation and verification REST API that helps developers
+  ensure the deliverability and quality of email addresses at scale. The API supports
+  real-time single email validation, asynchronous bulk list processing, and data
+  enrichment via reverse email lookup. It detects disposable addresses, role-based
+  emails, catch-all domains, syntax errors, and performs MX record and SMTP-level
+  mailbox verification. DeBounce offers pay-as-you-go credit-based pricing with no
+  monthly subscription required, full API access at every tier, and credits that
+  never expire.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/apis.yml
+created: '2026-06-12'
+modified: '2026-06-12'
+specificationVersion: '0.19'
+tags:
+  - Email Validation
+  - Email Verification
+  - Deliverability
+  - Disposable Email Detection
+  - MX Records
+  - Bulk Email Validation
+  - Data Enrichment
+  - Syntax Validation
+
+apis:
+  - aid: debounce:email-validation-api
+    name: DeBounce Email Validation API
+    description: >
+      The DeBounce Email Validation API provides real-time and bulk email address
+      verification, checking deliverability, detecting disposable and role-based
+      addresses, validating syntax and MX records, and performing SMTP mailbox
+      verification. The API also includes a Data Append endpoint for reverse email
+      lookup and a Disposable Detector endpoint for checking against known temporary
+      email domain lists.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://debounce.com/solutions/api/
+    baseURL: https://api.debounce.io/v1/
+    tags:
+      - Email Validation
+      - Email Verification
+      - Deliverability
+      - Bulk Validation
+      - Disposable Detection
+    properties:
+      - type: Documentation
+        url: https://developers.debounce.com/
+      - type: OpenAPI
+        url: https://developers.debounce.com/
+      - type: RateLimits
+        url: https://developers.debounce.com/api-concepts/rate-limiting
+
+common:
+  - type: Website
+    url: https://debounce.com/
+  - type: Documentation
+    url: https://developers.debounce.com/
+  - type: GitHubOrg
+    url: https://github.com/debounceio
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/debounceio
+  - type: Blog
+    url: https://debounce.com/blog/
+  - type: Pricing
+    url: https://debounce.com/pricing/
+  - type: StatusPage
+    url: https://status.debounce.com/
+  - type: X
+    url: https://x.com/debounceio
+  - type: Plans
+    url: plans/debounce-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/debounce-rate-limits.yml
+  - type: FinOps
+    url: finops/debounce-finops.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,74 @@
+name: DeBounce Rate Limits
+description: >
+  DeBounce applies concurrency-based rate limits rather than per-minute or
+  per-day request quotas for private API keys. Rate limits vary by key type
+  and the type of operation being performed. When limits are exceeded, the
+  API returns HTTP 429. Higher throughput is available by contacting the
+  DeBounce team.
+specificationVersion: '0.1'
+url: https://developers.debounce.com/api-concepts/rate-limiting
+
+limits:
+
+  - name: Private API Key - Standard Concurrency
+    description: >
+      Regular (private) API keys may send up to 5 concurrent API calls at
+      a time for standard validation operations.
+    keyType: private
+    scope: concurrency
+    limit: 5
+    unit: concurrent-requests
+    operations:
+      - Single email validation
+      - Bulk status checks
+      - Account balance queries
+
+  - name: Private API Key - Data Enrichment Concurrency
+    description: >
+      When the data enrichment option is enabled, the concurrent call limit
+      is reduced to 2 simultaneous requests.
+    keyType: private
+    scope: concurrency
+    limit: 2
+    unit: concurrent-requests
+    operations:
+      - Data enrichment / reverse email lookup
+
+  - name: Public API Key - Daily Per-IP Limit
+    description: >
+      Public API keys (prefixed with public_) are intended for JavaScript-based
+      real-time form validation widgets. Each internet IP address is limited to
+      20 email validations per day. Requires domain approval via CORS configuration.
+    keyType: public
+    scope: daily
+    limit: 20
+    unit: requests-per-ip-per-day
+    operations:
+      - Single email validation (client-side/JavaScript)
+
+  - name: Bulk Validation Jobs - Account Concurrency
+    description: >
+      Only one active bulk validation job is permitted per account at a time.
+      Additional jobs are queued automatically and processed sequentially to
+      ensure system stability.
+    keyType: private
+    scope: account-concurrency
+    limit: 1
+    unit: active-bulk-jobs-per-account
+    operations:
+      - Bulk email list upload and validation
+
+errorResponses:
+  - httpStatus: 429
+    message: Maximum concurrent calls reached
+    description: Returned when the concurrent request limit is exceeded for a private key
+  - httpStatus: 429
+    message: Daily call maximum reached
+    description: Returned when the per-IP daily limit is exceeded for a public key
+
+recommendations:
+  - Implement connection pooling to stay within concurrency limits
+  - Use request queuing to manage parallel calls
+  - Apply exponential backoff retry logic on 429 responses
+  - Cache validation results to avoid redundant API calls
+  - Contact DeBounce support for upgraded rate limits if higher throughput is needed
