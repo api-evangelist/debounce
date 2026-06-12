@@ -1,0 +1,101 @@
+{
+  "title": "DeBounce Single Email Validation - Example Request and Response",
+  "description": "Example of calling the DeBounce single email validation endpoint",
+  "request": {
+    "method": "GET",
+    "url": "https://api.debounce.io/v1/",
+    "query_parameters": {
+      "api": "YOUR_API_KEY",
+      "email": "someemail@gmail.com"
+    },
+    "curl_example": "curl 'https://api.debounce.io/v1/?api=YOUR_API_KEY&email=someemail@gmail.com'"
+  },
+  "response_safe_to_send": {
+    "status_code": 200,
+    "body": {
+      "debounce": {
+        "email": "someemail@gmail.com",
+        "code": "5",
+        "role": "false",
+        "free_email": "true",
+        "result": "Safe to Send",
+        "reason": "Deliverable",
+        "send_transactional": "1",
+        "did_you_mean": ""
+      },
+      "success": "1",
+      "balance": "329918"
+    }
+  },
+  "response_invalid": {
+    "status_code": 200,
+    "body": {
+      "debounce": {
+        "email": "notreal@nonexistent.xyz",
+        "code": "3",
+        "role": "false",
+        "free_email": "false",
+        "result": "Invalid",
+        "reason": "Undeliverable",
+        "send_transactional": "0",
+        "did_you_mean": ""
+      },
+      "success": "1",
+      "balance": "329917"
+    }
+  },
+  "response_disposable": {
+    "status_code": 200,
+    "body": {
+      "debounce": {
+        "email": "user@mailinator.com",
+        "code": "4",
+        "role": "false",
+        "free_email": "false",
+        "result": "Invalid",
+        "reason": "Disposable",
+        "send_transactional": "0",
+        "did_you_mean": ""
+      },
+      "success": "1",
+      "balance": "329916"
+    }
+  },
+  "response_with_typo_suggestion": {
+    "status_code": 200,
+    "body": {
+      "debounce": {
+        "email": "user@gmial.com",
+        "code": "3",
+        "role": "false",
+        "free_email": "false",
+        "result": "Invalid",
+        "reason": "Undeliverable",
+        "send_transactional": "0",
+        "did_you_mean": "user@gmail.com"
+      },
+      "success": "1",
+      "balance": "329915"
+    }
+  },
+  "response_error_invalid_key": {
+    "status_code": 401,
+    "body": {
+      "debounce": {
+        "error": "Wrong API",
+        "code": "0"
+      },
+      "success": "0"
+    }
+  },
+  "response_error_credits_low": {
+    "status_code": 402,
+    "body": {
+      "debounce": {
+        "error": "Credits Low",
+        "code": "0"
+      },
+      "success": "0"
+    }
+  }
+}

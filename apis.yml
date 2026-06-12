@@ -48,9 +48,13 @@ apis:
       - type: Documentation
         url: https://developers.debounce.com/
       - type: OpenAPI
-        url: https://developers.debounce.com/
+        url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/openapi/debounce-email-validation-api-openapi.yml
       - type: RateLimits
         url: https://developers.debounce.com/api-concepts/rate-limiting
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
+      - type: Examples
+        url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
 
 common:
   - type: Website
@@ -75,6 +79,12 @@ common:
     url: rate-limits/debounce-rate-limits.yml
   - type: FinOps
     url: finops/debounce-finops.yml
+  - type: Vocabulary
+    url: vocabulary/debounce-vocabulary.yml
+  - type: JSONLDContext
+    url: json-ld/debounce-context.jsonld
+  - type: BlogPosts
+    url: blogs/blogs.json
 
 maintainers:
   - FN: Kin Lane

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/debounce/main/json-schema/debounce-validation-result-schema.json",
+  "title": "DeBounce Validation Result",
+  "description": "Schema for the response returned by the DeBounce single email validation endpoint.",
+  "type": "object",
+  "properties": {
+    "debounce": {
+      "type": "object",
+      "description": "The validation result object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address that was validated"
+        },
+        "code": {
+          "type": "string",
+          "description": "DeBounce validation response code. See https://help.debounce.com/understanding-results/result-codes/"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["true", "false"],
+          "description": "Whether the email is role-based (sales@, info@, webmaster@, etc.)"
+        },
+        "free_email": {
+          "type": "string",
+          "enum": ["true", "false"],
+          "description": "Whether the email is from a free email provider such as Gmail or Yahoo"
+        },
+        "result": {
+          "type": "string",
+          "enum": ["Invalid", "Risky", "Safe to Send", "Unknown"],
+          "description": "The final validation result determining suitability for marketing emails"
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason for the given result (e.g., Deliverable, Undeliverable, Catch-All, Disposable)"
+        },
+        "send_transactional": {
+          "type": "string",
+          "enum": ["0", "1"],
+          "description": "Whether sending transactional email is recommended (1=yes, 0=no)"
+        },
+        "did_you_mean": {
+          "type": "string",
+          "description": "Suggested corrected email address when a typo is detected"
+        },
+        "photo": {
+          "type": "string",
+          "format": "uri",
+          "description": "Profile photo URL (only present when photo=true query param is passed)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name associated with the email (only present when append=true)"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "Avatar URL (only present when append=true)"
+        }
+      },
+      "required": ["email", "result"],
+      "additionalProperties": true
+    },
+    "success": {
+      "type": "string",
+      "enum": ["0", "1"],
+      "description": "Whether the API call succeeded (1) or not (0)"
+    },
+    "balance": {
+      "type": "string",
+      "description": "Remaining credit balance on the account after this call"
+    }
+  },
+  "required": ["debounce", "success"],
+  "additionalProperties": false
+}

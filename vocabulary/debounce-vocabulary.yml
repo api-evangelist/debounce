@@ -1,0 +1,195 @@
+vocabulary:
+  name: DeBounce Email Validation API Vocabulary
+  description: >
+    Domain vocabulary for the DeBounce Email Validation API, covering email
+    validation concepts, result codes, status values, and data enrichment terms.
+  url: https://debounce.com/solutions/api/
+  version: '1.0'
+  created: '2026-06-12'
+
+terms:
+
+  - term: email_validation
+    label: Email Validation
+    definition: >
+      The process of verifying that an email address is syntactically correct, has a
+      valid domain with MX records, and has a mailbox that accepts email at the SMTP
+      level. DeBounce performs multi-layer validation including syntax, DNS, MX, and
+      SMTP checks.
+    related:
+      - email_verification
+      - deliverability
+
+  - term: email_verification
+    label: Email Verification
+    definition: >
+      SMTP-level confirmation that an email mailbox exists and can receive messages.
+      Used interchangeably with email validation in the DeBounce context.
+    related:
+      - email_validation
+      - smtp_check
+
+  - term: deliverability
+    label: Deliverability
+    definition: >
+      The likelihood that an email sent to a given address will reach the recipient's
+      inbox. DeBounce's "Safe to Send" result indicates high deliverability.
+    related:
+      - result
+      - safe_to_send
+
+  - term: result
+    label: Validation Result
+    definition: >
+      The final outcome of the email validation process. Possible values are:
+      "Safe to Send" (deliverable), "Invalid" (undeliverable), "Risky" (uncertain
+      or catch-all), or "Unknown" (could not verify).
+    values:
+      - safe_to_send
+      - invalid
+      - risky
+      - unknown
+
+  - term: safe_to_send
+    label: Safe to Send
+    definition: >
+      A validation result indicating the email address is deliverable and suitable
+      for sending marketing emails. The mailbox exists and accepts messages.
+
+  - term: invalid
+    label: Invalid
+    definition: >
+      A validation result indicating the email address is undeliverable. The address
+      may not exist, the domain may be inactive, or the mailbox may be rejected at
+      the SMTP level.
+
+  - term: risky
+    label: Risky
+    definition: >
+      A validation result indicating uncertainty about deliverability. Common causes
+      include catch-all domains where the mail server accepts all email without
+      verifying individual mailboxes.
+
+  - term: unknown
+    label: Unknown
+    definition: >
+      A validation result indicating DeBounce could not definitively determine the
+      deliverability status of the email address.
+
+  - term: reason
+    label: Validation Reason
+    definition: >
+      An explanatory code indicating why a particular validation result was returned.
+      Examples include "Deliverable", "Undeliverable", "Catch-All", "Disposable",
+      "Role", "Syntax Error", "DNS Error".
+
+  - term: disposable_email
+    label: Disposable Email
+    definition: >
+      A temporary email address provided by services such as Mailinator or Guerrilla
+      Mail that is intended for one-time use. DeBounce detects and flags disposable
+      emails to help maintain list quality.
+    related:
+      - disposable_detector
+
+  - term: disposable_detector
+    label: Disposable Detector
+    definition: >
+      The DeBounce endpoint that checks whether an email address belongs to a known
+      disposable or temporary email provider, using a continuously updated domain list.
+
+  - term: role_based_email
+    label: Role-Based Email
+    definition: >
+      An email address associated with a function rather than an individual person,
+      such as sales@, info@, support@, or webmaster@. Role-based emails are generally
+      not suitable for marketing campaigns.
+
+  - term: catch_all_domain
+    label: Catch-All Domain
+    definition: >
+      A domain configured to accept all incoming email regardless of whether the
+      specific mailbox exists. This makes it impossible to definitively verify individual
+      addresses at that domain via SMTP.
+
+  - term: mx_record
+    label: MX Record
+    definition: >
+      A DNS Mail Exchanger record that specifies which mail server is responsible for
+      accepting email for a domain. DeBounce checks MX records as part of its
+      multi-layer validation process.
+
+  - term: smtp_check
+    label: SMTP Check
+    definition: >
+      A validation technique that connects to the recipient domain's mail server and
+      simulates sending an email to verify that the specific mailbox exists without
+      actually delivering a message.
+
+  - term: send_transactional
+    label: Send Transactional
+    definition: >
+      A DeBounce response field indicating whether it is safe to send transactional
+      emails (e.g., password resets, order confirmations) to the validated address.
+      Value of 1 means yes, 0 means no.
+
+  - term: api_key
+    label: API Key
+    definition: >
+      A unique authentication credential required for all DeBounce API requests,
+      passed as the "api" query parameter. API keys are generated in the DeBounce
+      account dashboard.
+
+  - term: credit
+    label: Validation Credit
+    definition: >
+      The unit of currency for DeBounce's pay-as-you-go billing model. Each
+      standard email validation consumes one credit. Optional enrichment features
+      such as photo (1 credit) or data append (20 credits) consume additional credits.
+      Credits never expire.
+
+  - term: data_append
+    label: Data Append
+    definition: >
+      An optional DeBounce feature (append=true) that enriches the validation response
+      with additional contact information such as full name and avatar image, sourced
+      via reverse email lookup.
+
+  - term: bulk_validation
+    label: Bulk Validation
+    definition: >
+      Asynchronous processing of large email lists through the DeBounce bulk upload
+      endpoint. Lists are submitted as CSV or TXT files and processed in the background,
+      with results available via the status endpoint or webhook notification.
+
+  - term: list_id
+    label: List ID
+    definition: >
+      A unique identifier returned by the DeBounce bulk upload endpoint that is used
+      to poll for processing status and retrieve results via the bulk status endpoint.
+
+  - term: code
+    label: Result Code
+    definition: >
+      A numeric code returned by DeBounce that maps to a specific validation result
+      category. See https://help.debounce.com/understanding-results/result-codes/ for
+      the full code reference.
+
+  - term: did_you_mean
+    label: Did You Mean
+    definition: >
+      A response field that contains a suggested corrected email address when DeBounce
+      detects a likely typo in the submitted address (e.g., "gmial.com" → "gmail.com").
+
+  - term: free_email
+    label: Free Email Provider
+    definition: >
+      A flag indicating whether the email address belongs to a free email provider
+      such as Gmail, Yahoo, or Hotmail. Useful for segmenting business vs. consumer email lists.
+
+  - term: gsuite_detection
+    label: G Suite Detection
+    definition: >
+      An optional DeBounce parameter (gsuite=true) that enables detection of G Suite
+      accept-all email configurations used by organizations running Google Workspace,
+      which would otherwise appear as catch-all domains.

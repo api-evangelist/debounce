@@ -1,0 +1,178 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "debounce": "https://debounce.com/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "EmailValidationAPI": "debounce:EmailValidationAPI",
+    "ValidationResult": "debounce:ValidationResult",
+    "BulkValidationList": "debounce:BulkValidationList",
+    "DisposableCheck": "debounce:DisposableCheck",
+    "AccountBalance": "debounce:AccountBalance",
+    "UsageRecord": "debounce:UsageRecord",
+
+    "email": {
+      "@id": "schema:email",
+      "@type": "xsd:string"
+    },
+    "result": {
+      "@id": "debounce:result",
+      "@type": "xsd:string"
+    },
+    "reason": {
+      "@id": "debounce:reason",
+      "@type": "xsd:string"
+    },
+    "code": {
+      "@id": "debounce:validationCode",
+      "@type": "xsd:string"
+    },
+    "role": {
+      "@id": "debounce:isRoleBased",
+      "@type": "xsd:boolean"
+    },
+    "free_email": {
+      "@id": "debounce:isFreeEmailProvider",
+      "@type": "xsd:boolean"
+    },
+    "send_transactional": {
+      "@id": "debounce:sendTransactional",
+      "@type": "xsd:integer"
+    },
+    "did_you_mean": {
+      "@id": "debounce:didYouMean",
+      "@type": "xsd:string"
+    },
+    "success": {
+      "@id": "debounce:success",
+      "@type": "xsd:string"
+    },
+    "balance": {
+      "@id": "debounce:creditBalance",
+      "@type": "xsd:integer"
+    },
+    "disposable": {
+      "@id": "debounce:isDisposable",
+      "@type": "xsd:boolean"
+    },
+    "list_id": {
+      "@id": "debounce:listId",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "debounce:processingStatus",
+      "@type": "xsd:string"
+    },
+    "total": {
+      "@id": "debounce:totalEmails",
+      "@type": "xsd:integer"
+    },
+    "processed": {
+      "@id": "debounce:processedEmails",
+      "@type": "xsd:integer"
+    },
+    "safe": {
+      "@id": "debounce:safeCount",
+      "@type": "xsd:integer"
+    },
+    "invalid": {
+      "@id": "debounce:invalidCount",
+      "@type": "xsd:integer"
+    },
+    "risky": {
+      "@id": "debounce:riskyCount",
+      "@type": "xsd:integer"
+    },
+    "unknown": {
+      "@id": "debounce:unknownCount",
+      "@type": "xsd:integer"
+    },
+    "download_url": {
+      "@id": "debounce:downloadUrl",
+      "@type": "@id"
+    },
+    "photo": {
+      "@id": "schema:image",
+      "@type": "@id"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "avatar": {
+      "@id": "schema:image",
+      "@type": "@id"
+    },
+    "date": {
+      "@id": "schema:startDate",
+      "@type": "xsd:date"
+    },
+    "calls": {
+      "@id": "debounce:apiCalls",
+      "@type": "xsd:integer"
+    },
+    "credits_used": {
+      "@id": "debounce:creditsUsed",
+      "@type": "xsd:integer"
+    },
+    "debounce_obj": {
+      "@id": "debounce:validationData",
+      "@type": "debounce:ValidationResult"
+    },
+    "usage": {
+      "@id": "debounce:usageHistory",
+      "@container": "@list"
+    },
+
+    "SafeToSend": "debounce:SafeToSend",
+    "Invalid": "debounce:Invalid",
+    "Risky": "debounce:Risky",
+    "Unknown": "debounce:Unknown",
+    "Deliverable": "debounce:Deliverable",
+    "Undeliverable": "debounce:Undeliverable",
+    "Disposable": "debounce:Disposable",
+    "CatchAll": "debounce:CatchAll",
+
+    "provider": {
+      "@id": "schema:Organization",
+      "@type": "@id"
+    },
+    "name_org": {
+      "@id": "schema:name"
+    },
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "description": {
+      "@id": "schema:description"
+    }
+  },
+
+  "@graph": [
+    {
+      "@id": "https://debounce.com/",
+      "@type": "schema:Organization",
+      "schema:name": "DeBounce",
+      "schema:url": "https://debounce.com/",
+      "schema:description": "DeBounce provides email validation and verification services via a REST API, helping developers ensure email deliverability and list quality.",
+      "schema:sameAs": [
+        "https://github.com/debounceio",
+        "https://www.linkedin.com/company/debounceio",
+        "https://x.com/debounceio"
+      ]
+    },
+    {
+      "@id": "https://api.debounce.io/v1/",
+      "@type": ["schema:WebAPI", "EmailValidationAPI"],
+      "schema:name": "DeBounce Email Validation API",
+      "schema:description": "Real-time and bulk email address validation and verification REST API",
+      "schema:url": "https://debounce.com/solutions/api/",
+      "schema:documentation": "https://developers.debounce.com/",
+      "schema:provider": {
+        "@id": "https://debounce.com/"
+      }
+    }
+  ]
+}
