@@ -3,7 +3,7 @@
   "description": "The DeBounce blog covering email validation, deliverability, email marketing, and developer resources.",
   "url": "https://debounce.com/blog/",
   "rss": null,
-  "rss_note": "No RSS/Atom feed discovered. Blog is served as standard HTML. Checked /blog/feed/, /blog/rss.xml, and /feed/ — all returned 404 or non-feed HTML.",
+  "rss_note": "No RSS/Atom feed discovered. Blog is served as standard HTML. Checked /blog/feed/, /blog/rss.xml, and /feed/ \u2014 all returned 404 or non-feed HTML.",
   "last_checked": "2026-06-12",
   "posts": [
     {
@@ -111,5 +111,17 @@
       "url": "https://debounce.com/blog/how-to-improve-email-click-through-rate/",
       "date": "2026-03-31"
     }
-  ]
+  ],
+  "repo": "debounce",
+  "feeds": [
+    {
+      "source": "https://www.linkedin.com/company/debounceio",
+      "feed_url": "https://www.linkedin.com/company/debounceio",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-14T20:42:17Z"
 }
