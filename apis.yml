@@ -10,7 +10,7 @@ description: >
   monthly subscription required, full API access at every tier, and credits that
   never expire.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/apis.yml
 created: '2026-06-12'
 modified: '2026-06-12'
@@ -35,7 +35,7 @@ apis:
       verification. The API also includes a Data Append endpoint for reverse email
       lookup and a Disposable Detector endpoint for checking against known temporary
       email domain lists.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://debounce.com/solutions/api/
     baseURL: https://api.debounce.io/v1/
     tags:
