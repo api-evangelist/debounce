@@ -1,127 +1,14 @@
 {
-  "name": "DeBounce Blog",
-  "description": "The DeBounce blog covering email validation, deliverability, email marketing, and developer resources.",
-  "url": "https://debounce.com/blog/",
-  "rss": null,
-  "rss_note": "No RSS/Atom feed discovered. Blog is served as standard HTML. Checked /blog/feed/, /blog/rss.xml, and /feed/ \u2014 all returned 404 or non-feed HTML.",
-  "last_checked": "2026-06-12",
-  "posts": [
-    {
-      "title": "Email Unsubscribe Rate: Benchmarks, Formula, and Causes",
-      "url": "https://debounce.com/blog/email-unsubscribe-rate/",
-      "date": "2026-05-30"
-    },
-    {
-      "title": "How to Validate Email in JavaScript: Four Reliable Methods",
-      "url": "https://debounce.com/blog/how-to-validate-email-in-javascript/",
-      "date": "2026-05-30"
-    },
-    {
-      "title": "Email Lead Generation: Tactics, Best Practices, and KPIs",
-      "url": "https://debounce.com/blog/email-lead-generation/",
-      "date": "2026-06-03"
-    },
-    {
-      "title": "Top Email Spam Trigger Words to Avoid in 2026",
-      "url": "https://debounce.com/blog/email-spam-trigger-words/",
-      "date": "2026-06-03"
-    },
-    {
-      "title": "Email Subdomain: Best Practices, Examples, and What to Avoid",
-      "url": "https://debounce.com/blog/email-subdomain-best-practices/",
-      "date": "2026-06-03"
-    },
-    {
-      "title": "Best Ways for Google Sheets Email Validation in 2026",
-      "url": "https://debounce.com/blog/google-sheets-email-validation/",
-      "date": "2026-05-12"
-    },
-    {
-      "title": "How to Avoid Spam Filters and Reach the Inbox",
-      "url": "https://debounce.com/blog/how-to-avoid-spam-filters/",
-      "date": "2026-05-19"
-    },
-    {
-      "title": "GDPR Email Marketing: Rules, Consent, and Compliance",
-      "url": "https://debounce.com/blog/gdpr-email-marketing/",
-      "date": "2026-05-15"
-    },
-    {
-      "title": "Dedicated IP vs. Shared IP: Which One Should You Use?",
-      "url": "https://debounce.com/blog/dedicated-ip-vs-shared-ip/",
-      "date": "2026-05-12"
-    },
-    {
-      "title": "What Is an Email Autoresponder and How Does It Work?",
-      "url": "https://debounce.com/blog/what-is-an-email-autoresponder/",
-      "date": "2026-05-11"
-    },
-    {
-      "title": "Dynamic Email Content: Types, Examples, and Best Practices",
-      "url": "https://debounce.com/blog/dynamic-email-content/",
-      "date": "2026-04-28"
-    },
-    {
-      "title": "Microsoft SNDS: Solve Your Hotmail and Outlook Inbox Problems",
-      "url": "https://debounce.com/blog/microsoft-snds/",
-      "date": "2026-04-27"
-    },
-    {
-      "title": "What Is Mail Routing? How Email Gets Delivered",
-      "url": "https://debounce.com/blog/mail-routing/",
-      "date": "2026-04-25"
-    },
-    {
-      "title": "What Is Data Enrichment? Definition, Types, and Benefits",
-      "url": "https://debounce.com/blog/what-is-data-enrichment/",
-      "date": "2026-04-27"
-    },
-    {
-      "title": "Email Regex: Patterns to Validate Email Addresses",
-      "url": "https://debounce.com/blog/email-regex/",
-      "date": "2026-04-27"
-    },
-    {
-      "title": "What Is a PTR Record and How Does It Work?",
-      "url": "https://debounce.com/blog/what-is-a-ptr-record/",
-      "date": "2026-04-24"
-    },
-    {
-      "title": "Email Personalization: How to Go Beyond the First Name",
-      "url": "https://debounce.com/blog/email-personalization/",
-      "date": "2026-04-24"
-    },
-    {
-      "title": "What Is an MX Record? Definition and Setup Guide",
-      "url": "https://debounce.com/blog/what-is-an-mx-record/",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "What is Email Warmup? Boost Your Inbox Placement",
-      "url": "https://debounce.com/blog/what-is-email-warmup/",
-      "date": "2026-03-30"
-    },
-    {
-      "title": "How to Check Email Domain Reputation: The 2026 Guide",
-      "url": "https://debounce.com/blog/how-to-check-email-domain-reputation/",
-      "date": "2026-03-31"
-    },
-    {
-      "title": "How to Improve Email Click-Through Rate (CTR)",
-      "url": "https://debounce.com/blog/how-to-improve-email-click-through-rate/",
-      "date": "2026-03-31"
-    }
-  ],
   "repo": "debounce",
   "feeds": [
     {
-      "source": "https://www.linkedin.com/company/debounceio",
-      "feed_url": "https://www.linkedin.com/company/debounceio",
-      "title": "",
+      "source": "https://debounce.com/blog/",
+      "feed_url": "",
       "saved": 0,
-      "method": "none"
+      "method": "agent-scrape"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T12:37:20Z",
+  "agent_pulled": "2026-06-27"
 }
