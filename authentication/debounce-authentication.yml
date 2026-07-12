@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/debounce-email-validation-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - query
+schemes:
+- name: ApiKeyQuery
+  type: apiKey
+  in: query
+  parameter: api
+  description: DeBounce API key passed as the 'api' query parameter. Obtain your API key from
+    the DeBounce account dashboard at https://app.debounce.io/.
+  sources:
+  - openapi/debounce-email-validation-api-openapi.yml
