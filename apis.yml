@@ -57,6 +57,8 @@ apis:
         url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
 
 common:
+  - type: AgenticAccess
+    url: agentic-access/debounce-agentic-access.yml
   - type: DomainSecurity
     url: security/debounce-domain-security.yml
   - type: Authentication
