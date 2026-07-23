@@ -1,0 +1,169 @@
+openapi: 3.0.3
+info:
+  title: DeBounce Email Validation Account API
+  description: 'DeBounce is an email validation and verification REST API that helps developers ensure the deliverability and quality of email addresses at scale. The API supports real-time single email validation, asynchronous bulk list processing, and data enrichment via reverse email lookup. It detects disposable addresses, role-based emails, catch-all domains, syntax errors, and performs MX record and SMTP-level mailbox verification.
+
+    '
+  version: 1.0.0
+  contact:
+    name: DeBounce Support
+    url: https://debounce.com/
+  license:
+    name: MIT
+  termsOfService: https://debounce.com/terms/
+servers:
+- url: https://api.debounce.io
+  description: DeBounce production API
+security:
+- ApiKeyQuery: []
+tags:
+- name: Account
+  description: Account balance and usage history
+paths:
+  /v1/balance/:
+    get:
+      tags:
+      - Account
+      summary: Get Account Balance
+      description: 'Returns the current credit balance remaining on your DeBounce account. Credits never expire and are consumed on a pay-as-you-go basis.
+
+        '
+      operationId: getAccountBalance
+      parameters:
+      - name: api
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Your DeBounce API key
+      responses:
+        '200':
+          description: Account balance retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+              example:
+                success: '1'
+                balance: '329918'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/usage/:
+    get:
+      tags:
+      - Account
+      summary: Get API Usage History
+      description: 'Returns daily API usage statistics and credit consumption history for your DeBounce account. Useful for monitoring usage patterns and tracking costs.
+
+        '
+      operationId: getApiUsage
+      parameters:
+      - name: api
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Your DeBounce API key
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Start date for usage report (YYYY-MM-DD)
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: End date for usage report (YYYY-MM-DD)
+      responses:
+        '200':
+          description: Usage history retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageResponse'
+              example:
+                success: '1'
+                usage:
+                - date: '2026-06-01'
+                  calls: 5420
+                  credits_used: 5420
+                - date: '2026-06-02'
+                  calls: 3210
+                  credits_used: 3210
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    UsageResponse:
+      type: object
+      properties:
+        success:
+          type: string
+          enum:
+          - '0'
+          - '1'
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageDay'
+    UsageDay:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date for this usage record (YYYY-MM-DD)
+        calls:
+          type: integer
+          description: Number of API calls made on this date
+        credits_used:
+          type: integer
+          description: Number of credits consumed on this date
+    BalanceResponse:
+      type: object
+      properties:
+        success:
+          type: string
+          enum:
+          - '0'
+          - '1'
+        balance:
+          type: string
+          description: Current remaining credit balance
+    ErrorResponse:
+      type: object
+      properties:
+        debounce:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Human-readable error message
+            code:
+              type: string
+              description: Error code
+        success:
+          type: string
+          enum:
+          - '0'
+          description: Always '0' for error responses
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api
+      description: 'DeBounce API key passed as the ''api'' query parameter. Obtain your API key from the DeBounce account dashboard at https://app.debounce.io/.
+
+        '

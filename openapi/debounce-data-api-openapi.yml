@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: DeBounce Email Validation Account Data API
+  description: 'DeBounce is an email validation and verification REST API that helps developers ensure the deliverability and quality of email addresses at scale. The API supports real-time single email validation, asynchronous bulk list processing, and data enrichment via reverse email lookup. It detects disposable addresses, role-based emails, catch-all domains, syntax errors, and performs MX record and SMTP-level mailbox verification.
+
+    '
+  version: 1.0.0
+  contact:
+    name: DeBounce Support
+    url: https://debounce.com/
+  license:
+    name: MIT
+  termsOfService: https://debounce.com/terms/
+servers:
+- url: https://api.debounce.io
+  description: DeBounce production API
+security:
+- ApiKeyQuery: []
+tags:
+- name: Data
+  description: Data enrichment and disposable email detection
+paths:
+  /v1/disposable/:
+    get:
+      tags:
+      - Data
+      summary: Check Disposable Email Domain
+      description: 'Checks whether the given email address or domain belongs to a known disposable or temporary email provider. This is a lightweight, real-time check against DeBounce''s continuously updated list of disposable email domains.
+
+        '
+      operationId: checkDisposable
+      parameters:
+      - name: api
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Your DeBounce API key
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+          format: email
+        description: The email address to check for disposable domain
+      responses:
+        '200':
+          description: Disposable check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisposableResponse'
+              examples:
+                disposable:
+                  summary: Disposable email detected
+                  value:
+                    debounce:
+                      email: user@mailinator.com
+                      disposable: 'true'
+                    success: '1'
+                not_disposable:
+                  summary: Not a disposable email
+                  value:
+                    debounce:
+                      email: user@gmail.com
+                      disposable: 'false'
+                    success: '1'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        debounce:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Human-readable error message
+            code:
+              type: string
+              description: Error code
+        success:
+          type: string
+          enum:
+          - '0'
+          description: Always '0' for error responses
+    DisposableResponse:
+      type: object
+      properties:
+        debounce:
+          type: object
+          properties:
+            email:
+              type: string
+              format: email
+              description: The email address checked
+            disposable:
+              type: string
+              enum:
+              - 'true'
+              - 'false'
+              description: Whether the email belongs to a disposable email provider
+        success:
+          type: string
+          enum:
+          - '0'
+          - '1'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api
+      description: 'DeBounce API key passed as the ''api'' query parameter. Obtain your API key from the DeBounce account dashboard at https://app.debounce.io/.
+
+        '
