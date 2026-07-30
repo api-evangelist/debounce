@@ -10,7 +10,20 @@ description: >
   monthly subscription required, full API access at every tier, and credits that
   never expire.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/debounce.png
 url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/apis.yml
 created: '2026-06-12'
 modified: '2026-06-12'
@@ -26,37 +39,89 @@ tags:
   - Syntax Validation
 
 apis:
-  - aid: debounce:email-validation-api
-    name: DeBounce Email Validation API
-    description: >
-      The DeBounce Email Validation API provides real-time and bulk email address
-      verification, checking deliverability, detecting disposable and role-based
-      addresses, validating syntax and MX records, and performing SMTP mailbox
-      verification. The API also includes a Data Append endpoint for reverse email
-      lookup and a Disposable Detector endpoint for checking against known temporary
-      email domain lists.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://debounce.com/solutions/api/
-    baseURL: https://api.debounce.io/v1/
-    tags:
-      - Email Validation
-      - Email Verification
-      - Deliverability
-      - Bulk Validation
-      - Disposable Detection
-    properties:
-      - type: Documentation
-        url: https://developers.debounce.com/
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/openapi/debounce-email-validation-api-openapi.yml
-      - type: RateLimits
-        url: https://developers.debounce.com/api-concepts/rate-limiting
-      - type: JSONSchema
-        url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
-      - type: Examples
-        url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
-
+- aid: debounce:debounce-account-api
+  name: DeBounce Account API
+  description: Account balance and usage history
+  humanURL: https://debounce.com/solutions/api/
+  baseURL: https://api.debounce.io/v1/
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/debounce-account-api-openapi.yml
+  - type: Documentation
+    url: https://developers.debounce.com/
+  - type: RateLimits
+    url: https://developers.debounce.com/api-concepts/rate-limiting
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
+- aid: debounce:debounce-bulk-api
+  name: DeBounce Bulk API
+  description: Bulk email list upload and status
+  humanURL: https://debounce.com/solutions/api/
+  baseURL: https://api.debounce.io/v1/
+  tags:
+  - Bulk
+  properties:
+  - type: OpenAPI
+    url: openapi/debounce-bulk-api-openapi.yml
+  - type: Documentation
+    url: https://developers.debounce.com/
+  - type: RateLimits
+    url: https://developers.debounce.com/api-concepts/rate-limiting
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
+- aid: debounce:debounce-data-api
+  name: DeBounce Data API
+  description: Data enrichment and disposable email detection
+  humanURL: https://debounce.com/solutions/api/
+  baseURL: https://api.debounce.io/v1/
+  tags:
+  - Data
+  properties:
+  - type: OpenAPI
+    url: openapi/debounce-data-api-openapi.yml
+  - type: Documentation
+    url: https://developers.debounce.com/
+  - type: RateLimits
+    url: https://developers.debounce.com/api-concepts/rate-limiting
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
+- aid: debounce:debounce-validation-api
+  name: DeBounce Validation API
+  description: Email address validation endpoints
+  humanURL: https://debounce.com/solutions/api/
+  baseURL: https://api.debounce.io/v1/
+  tags:
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/debounce-validation-api-openapi.yml
+  - type: Documentation
+    url: https://developers.debounce.com/
+  - type: RateLimits
+    url: https://developers.debounce.com/api-concepts/rate-limiting
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/debounce/overview
   - type: AgenticAccess
     url: agentic-access/debounce-agentic-access.yml
   - type: DomainSecurity
