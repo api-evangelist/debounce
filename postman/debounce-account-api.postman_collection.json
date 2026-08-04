@@ -1,0 +1,361 @@
+{
+  "info": {
+    "_postman_id": "2f434098-846c-4aa2-ba09-9c819a4e472b",
+    "name": "DeBounce Email Validation Account API",
+    "description": "DeBounce is an email validation and verification REST API that helps developers ensure the deliverability and quality of email addresses at scale. The API supports real-time single email validation, asynchronous bulk list processing, and data enrichment via reverse email lookup. It detects disposable addresses, role-based emails, catch-all domains, syntax errors, and performs MX record and SMTP-level mailbox verification.\n\n\nContact Support:\n Name: DeBounce Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:29:22.000Z",
+    "updatedAt": "2026-07-28T01:29:22.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2f434098-846c-4aa2-ba09-9c819a4e472b"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "balance",
+          "item": [
+            {
+              "name": "Get Account Balance",
+              "id": "5dd7c98d-cb64-4ce0-a7f4-24eece30915e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/balance/?api=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "balance",
+                    ""
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Your DeBounce API key",
+                      "key": "api",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Returns the current credit balance remaining on your DeBounce account. Credits never expire and are consumed on a pay-as-you-go basis.\n"
+              },
+              "response": [
+                {
+                  "id": "929651d9-dc77-411e-97b0-9bef469edab2",
+                  "name": "Account balance retrieved",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/balance/?api=<API Key>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "balance",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"success\": \"0\",\n  \"balance\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T01:29:22.000Z",
+                  "updatedAt": "2026-07-28T01:29:22.000Z",
+                  "uid": "35240-929651d9-dc77-411e-97b0-9bef469edab2"
+                },
+                {
+                  "id": "41deedfe-3865-4904-ae26-1895242c3640",
+                  "name": "Invalid API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/balance/?api=<API Key>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "balance",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"debounce\": {\n    \"error\": \"<string>\",\n    \"code\": \"<string>\"\n  },\n  \"success\": \"0\"\n}",
+                  "createdAt": "2026-07-28T01:29:22.000Z",
+                  "updatedAt": "2026-07-28T01:29:22.000Z",
+                  "uid": "35240-41deedfe-3865-4904-ae26-1895242c3640"
+                }
+              ],
+              "createdAt": "2026-07-28T01:29:22.000Z",
+              "updatedAt": "2026-07-28T01:29:22.000Z",
+              "uid": "35240-5dd7c98d-cb64-4ce0-a7f4-24eece30915e"
+            }
+          ],
+          "id": "fa9b91b2-68dd-4461-b8d1-ce8fb2fb65dd",
+          "createdAt": "2026-07-28T01:29:22.000Z",
+          "updatedAt": "2026-07-28T01:29:22.000Z",
+          "uid": "35240-fa9b91b2-68dd-4461-b8d1-ce8fb2fb65dd"
+        },
+        {
+          "name": "usage",
+          "item": [
+            {
+              "name": "Get API Usage History",
+              "id": "94053e43-5921-419f-a48d-aba7d5036bf9",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/usage/?api=<string>&start=<date>&end=<date>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "usage",
+                    ""
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Your DeBounce API key",
+                      "key": "api",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Start date for usage report (YYYY-MM-DD)",
+                      "key": "start",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "End date for usage report (YYYY-MM-DD)",
+                      "key": "end",
+                      "value": "<date>"
+                    }
+                  ]
+                },
+                "description": "Returns daily API usage statistics and credit consumption history for your DeBounce account. Useful for monitoring usage patterns and tracking costs.\n"
+              },
+              "response": [
+                {
+                  "id": "77f487fa-b55e-4063-8107-a91b2d2ff6aa",
+                  "name": "Usage history retrieved",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/usage/?api=<API Key>&start=<date>&end=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "usage",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        },
+                        {
+                          "description": "Start date for usage report (YYYY-MM-DD)",
+                          "key": "start",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for usage report (YYYY-MM-DD)",
+                          "key": "end",
+                          "value": "<date>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"success\": \"1\",\n  \"usage\": [\n    {\n      \"date\": \"<date>\",\n      \"calls\": \"<integer>\",\n      \"credits_used\": \"<integer>\"\n    },\n    {\n      \"date\": \"<date>\",\n      \"calls\": \"<integer>\",\n      \"credits_used\": \"<integer>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T01:29:22.000Z",
+                  "updatedAt": "2026-07-28T01:29:22.000Z",
+                  "uid": "35240-77f487fa-b55e-4063-8107-a91b2d2ff6aa"
+                },
+                {
+                  "id": "403cba19-c6de-46ae-bb74-6e6d42b35f59",
+                  "name": "Invalid API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/usage/?api=<API Key>&start=<date>&end=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "usage",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        },
+                        {
+                          "description": "Start date for usage report (YYYY-MM-DD)",
+                          "key": "start",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for usage report (YYYY-MM-DD)",
+                          "key": "end",
+                          "value": "<date>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"debounce\": {\n    \"error\": \"<string>\",\n    \"code\": \"<string>\"\n  },\n  \"success\": \"0\"\n}",
+                  "createdAt": "2026-07-28T01:29:22.000Z",
+                  "updatedAt": "2026-07-28T01:29:22.000Z",
+                  "uid": "35240-403cba19-c6de-46ae-bb74-6e6d42b35f59"
+                }
+              ],
+              "createdAt": "2026-07-28T01:29:22.000Z",
+              "updatedAt": "2026-07-28T01:29:22.000Z",
+              "uid": "35240-94053e43-5921-419f-a48d-aba7d5036bf9"
+            }
+          ],
+          "id": "f9778107-9693-43b7-87dd-109b50a47b4b",
+          "createdAt": "2026-07-28T01:29:22.000Z",
+          "updatedAt": "2026-07-28T01:29:22.000Z",
+          "uid": "35240-f9778107-9693-43b7-87dd-109b50a47b4b"
+        }
+      ],
+      "id": "70c9b88a-b433-437c-919b-7d2bbb40e973",
+      "createdAt": "2026-07-28T01:29:22.000Z",
+      "updatedAt": "2026-07-28T01:29:22.000Z",
+      "uid": "35240-70c9b88a-b433-437c-919b-7d2bbb40e973"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "query",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.debounce.io"
+    }
+  ]
+}

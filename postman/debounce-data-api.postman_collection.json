@@ -1,0 +1,205 @@
+{
+  "info": {
+    "_postman_id": "bfb70e36-e6ee-4460-b729-2a3ab0d461ae",
+    "name": "DeBounce Email Validation Account Data API",
+    "description": "DeBounce is an email validation and verification REST API that helps developers ensure the deliverability and quality of email addresses at scale. The API supports real-time single email validation, asynchronous bulk list processing, and data enrichment via reverse email lookup. It detects disposable addresses, role-based emails, catch-all domains, syntax errors, and performs MX record and SMTP-level mailbox verification.\n\n\nContact Support:\n Name: DeBounce Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:29:28.000Z",
+    "updatedAt": "2026-07-28T01:29:28.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-bfb70e36-e6ee-4460-b729-2a3ab0d461ae"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "disposable",
+          "item": [
+            {
+              "name": "Check Disposable Email Domain",
+              "id": "11d36a75-05e3-481b-ad30-ec7495ffe425",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/disposable/?api=<string>&email=<email>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "disposable",
+                    ""
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Your DeBounce API key",
+                      "key": "api",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) The email address to check for disposable domain",
+                      "key": "email",
+                      "value": "<email>"
+                    }
+                  ]
+                },
+                "description": "Checks whether the given email address or domain belongs to a known disposable or temporary email provider. This is a lightweight, real-time check against DeBounce's continuously updated list of disposable email domains.\n"
+              },
+              "response": [
+                {
+                  "id": "f045f162-605a-4b00-9e09-c542bc7f61ff",
+                  "name": "Disposable check result",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/disposable/?api=<API Key>&email=<email>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "disposable",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        },
+                        {
+                          "description": "(Required) The email address to check for disposable domain",
+                          "key": "email",
+                          "value": "<email>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"debounce\": {\n    \"email\": \"<email>\",\n    \"disposable\": \"true\"\n  },\n  \"success\": \"0\"\n}",
+                  "createdAt": "2026-07-28T01:29:29.000Z",
+                  "updatedAt": "2026-07-28T01:29:29.000Z",
+                  "uid": "35240-f045f162-605a-4b00-9e09-c542bc7f61ff"
+                },
+                {
+                  "id": "ca5e73f7-43c4-49b9-864f-32a5333eee98",
+                  "name": "Invalid API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/disposable/?api=<API Key>&email=<email>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "disposable",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        },
+                        {
+                          "description": "(Required) The email address to check for disposable domain",
+                          "key": "email",
+                          "value": "<email>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"debounce\": {\n    \"error\": \"<string>\",\n    \"code\": \"<string>\"\n  },\n  \"success\": \"0\"\n}",
+                  "createdAt": "2026-07-28T01:29:29.000Z",
+                  "updatedAt": "2026-07-28T01:29:29.000Z",
+                  "uid": "35240-ca5e73f7-43c4-49b9-864f-32a5333eee98"
+                }
+              ],
+              "createdAt": "2026-07-28T01:29:29.000Z",
+              "updatedAt": "2026-07-28T01:29:29.000Z",
+              "uid": "35240-11d36a75-05e3-481b-ad30-ec7495ffe425"
+            }
+          ],
+          "id": "0d1b3c6f-d447-454c-9155-11a7fcbc4370",
+          "createdAt": "2026-07-28T01:29:29.000Z",
+          "updatedAt": "2026-07-28T01:29:29.000Z",
+          "uid": "35240-0d1b3c6f-d447-454c-9155-11a7fcbc4370"
+        }
+      ],
+      "id": "0ef889e7-0bd2-4283-a98b-3a43d01623c1",
+      "createdAt": "2026-07-28T01:29:29.000Z",
+      "updatedAt": "2026-07-28T01:29:29.000Z",
+      "uid": "35240-0ef889e7-0bd2-4283-a98b-3a43d01623c1"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "query",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.debounce.io"
+    }
+  ]
+}

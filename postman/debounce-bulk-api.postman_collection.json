@@ -1,0 +1,527 @@
+{
+  "info": {
+    "_postman_id": "3b4cb9be-39b5-40d6-b65c-0c5c85311c05",
+    "name": "DeBounce Email Validation Account Bulk API",
+    "description": "DeBounce is an email validation and verification REST API that helps developers ensure the deliverability and quality of email addresses at scale. The API supports real-time single email validation, asynchronous bulk list processing, and data enrichment via reverse email lookup. It detects disposable addresses, role-based emails, catch-all domains, syntax errors, and performs MX record and SMTP-level mailbox verification.\n\n\nContact Support:\n Name: DeBounce Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:29:26.000Z",
+    "updatedAt": "2026-07-28T01:29:27.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-3b4cb9be-39b5-40d6-b65c-0c5c85311c05"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "bulk",
+          "item": [
+            {
+              "name": "{list_id}",
+              "item": [
+                {
+                  "name": "Get Bulk Validation Status",
+                  "id": "d9a700aa-6ab7-4c30-8dfa-456b553a5726",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/bulk/:list_id?api=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "bulk",
+                        ":list_id"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "2f2a5e49-e858-44cd-bd1b-9786f922043d",
+                          "key": "list_id",
+                          "value": "<string>",
+                          "description": "(Required) The list ID returned from the bulk upload endpoint"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves the processing status and results of a previously submitted bulk email validation list. Poll this endpoint to check progress, or use webhooks for completion notifications.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "6d576054-7291-4df3-a60a-1bb63a4b7fa2",
+                      "name": "Bulk list status retrieved",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/bulk/:list_id?api=<API Key>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "bulk",
+                            ":list_id"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Your DeBounce API key",
+                              "key": "api",
+                              "value": "<API Key>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "list_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"success\": \"1\",\n  \"list_id\": \"<string>\",\n  \"status\": \"pending\",\n  \"total\": \"<integer>\",\n  \"processed\": \"<integer>\",\n  \"safe\": \"<integer>\",\n  \"invalid\": \"<integer>\",\n  \"risky\": \"<integer>\",\n  \"unknown\": \"<integer>\",\n  \"download_url\": \"<uri>\"\n}",
+                      "createdAt": "2026-07-28T01:29:27.000Z",
+                      "updatedAt": "2026-07-28T01:29:27.000Z",
+                      "uid": "35240-6d576054-7291-4df3-a60a-1bb63a4b7fa2"
+                    },
+                    {
+                      "id": "d04c02a3-05ec-40bc-af8b-fcbca587770b",
+                      "name": "Invalid API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/bulk/:list_id?api=<API Key>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "bulk",
+                            ":list_id"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Your DeBounce API key",
+                              "key": "api",
+                              "value": "<API Key>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "list_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"debounce\": {\n    \"error\": \"<string>\",\n    \"code\": \"<string>\"\n  },\n  \"success\": \"0\"\n}",
+                      "createdAt": "2026-07-28T01:29:27.000Z",
+                      "updatedAt": "2026-07-28T01:29:27.000Z",
+                      "uid": "35240-d04c02a3-05ec-40bc-af8b-fcbca587770b"
+                    },
+                    {
+                      "id": "6573915f-7d5a-4634-bab4-b3adf5dc5ad7",
+                      "name": "List not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/bulk/:list_id?api=<API Key>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "bulk",
+                            ":list_id"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Your DeBounce API key",
+                              "key": "api",
+                              "value": "<API Key>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "list_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"debounce\": {\n    \"error\": \"<string>\",\n    \"code\": \"<string>\"\n  },\n  \"success\": \"0\"\n}",
+                      "createdAt": "2026-07-28T01:29:27.000Z",
+                      "updatedAt": "2026-07-28T01:29:27.000Z",
+                      "uid": "35240-6573915f-7d5a-4634-bab4-b3adf5dc5ad7"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:29:27.000Z",
+                  "updatedAt": "2026-07-28T01:29:27.000Z",
+                  "uid": "35240-d9a700aa-6ab7-4c30-8dfa-456b553a5726"
+                }
+              ],
+              "id": "77efc97c-f28d-4726-a2a7-29422c116d23",
+              "createdAt": "2026-07-28T01:29:27.000Z",
+              "updatedAt": "2026-07-28T01:29:27.000Z",
+              "uid": "35240-77efc97c-f28d-4726-a2a7-29422c116d23"
+            },
+            {
+              "name": "Upload Email List for Bulk Validation",
+              "id": "1738839d-f2c3-403d-9e82-af919b97571b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": "(Required) CSV or TXT file containing email addresses (one per line)",
+                      "key": "file",
+                      "type": "file",
+                      "value": null
+                    },
+                    {
+                      "description": "Optional name for the bulk list",
+                      "key": "name",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/bulk/?api=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "bulk",
+                    ""
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Your DeBounce API key",
+                      "key": "api",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Uploads a list of email addresses for asynchronous bulk validation processing. Bulk validation operates asynchronously and a list ID is returned for polling status or receiving webhook notifications on completion.\n"
+              },
+              "response": [
+                {
+                  "id": "bd7c56ea-1021-41b1-8454-93f3b25eb209",
+                  "name": "Bulk list upload accepted",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) CSV or TXT file containing email addresses (one per line)",
+                          "key": "file",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Optional name for the bulk list",
+                          "key": "name",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/bulk/?api=<API Key>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "bulk",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"success\": \"1\",\n  \"list_id\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T01:29:27.000Z",
+                  "updatedAt": "2026-07-28T01:29:27.000Z",
+                  "uid": "35240-bd7c56ea-1021-41b1-8454-93f3b25eb209"
+                },
+                {
+                  "id": "7dfa88f6-3c4c-4a4d-ac24-6306f1f0e428",
+                  "name": "Invalid API key",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) CSV or TXT file containing email addresses (one per line)",
+                          "key": "file",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Optional name for the bulk list",
+                          "key": "name",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/bulk/?api=<API Key>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "bulk",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"debounce\": {\n    \"error\": \"<string>\",\n    \"code\": \"<string>\"\n  },\n  \"success\": \"0\"\n}",
+                  "createdAt": "2026-07-28T01:29:27.000Z",
+                  "updatedAt": "2026-07-28T01:29:27.000Z",
+                  "uid": "35240-7dfa88f6-3c4c-4a4d-ac24-6306f1f0e428"
+                },
+                {
+                  "id": "db254a11-54a0-4776-b9f7-f03746216324",
+                  "name": "Insufficient credits",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) CSV or TXT file containing email addresses (one per line)",
+                          "key": "file",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Optional name for the bulk list",
+                          "key": "name",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/bulk/?api=<API Key>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "bulk",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Your DeBounce API key",
+                          "key": "api",
+                          "value": "<API Key>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Payment Required",
+                  "code": 402,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"debounce\": {\n    \"error\": \"<string>\",\n    \"code\": \"<string>\"\n  },\n  \"success\": \"0\"\n}",
+                  "createdAt": "2026-07-28T01:29:27.000Z",
+                  "updatedAt": "2026-07-28T01:29:27.000Z",
+                  "uid": "35240-db254a11-54a0-4776-b9f7-f03746216324"
+                }
+              ],
+              "createdAt": "2026-07-28T01:29:27.000Z",
+              "updatedAt": "2026-07-28T01:29:27.000Z",
+              "uid": "35240-1738839d-f2c3-403d-9e82-af919b97571b"
+            }
+          ],
+          "id": "5a3d26ed-ebfe-4d0f-995e-a8528c4233ab",
+          "createdAt": "2026-07-28T01:29:27.000Z",
+          "updatedAt": "2026-07-28T01:29:27.000Z",
+          "uid": "35240-5a3d26ed-ebfe-4d0f-995e-a8528c4233ab"
+        }
+      ],
+      "id": "b3e5f55d-c48c-4754-bc8d-3869a57a3c37",
+      "createdAt": "2026-07-28T01:29:27.000Z",
+      "updatedAt": "2026-07-28T01:29:27.000Z",
+      "uid": "35240-b3e5f55d-c48c-4754-bc8d-3869a57a3c37"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "query",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.debounce.io"
+    }
+  ]
+}

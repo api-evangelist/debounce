@@ -1,0 +1,642 @@
+openapi: 3.0.3
+info:
+  title: DeBounce Email Validation API
+  description: >
+    DeBounce is an email validation and verification REST API that helps developers
+    ensure the deliverability and quality of email addresses at scale. The API supports
+    real-time single email validation, asynchronous bulk list processing, and data
+    enrichment via reverse email lookup. It detects disposable addresses, role-based
+    emails, catch-all domains, syntax errors, and performs MX record and SMTP-level
+    mailbox verification.
+  version: 1.0.0
+  contact:
+    name: DeBounce Support
+    url: https://debounce.com/
+  license:
+    name: MIT
+  termsOfService: https://debounce.com/terms/
+
+servers:
+  - url: https://api.debounce.io
+    description: DeBounce production API
+
+security:
+  - ApiKeyQuery: []
+
+tags:
+  - name: Validation
+    description: Email address validation endpoints
+  - name: Bulk
+    description: Bulk email list upload and status
+  - name: Data
+    description: Data enrichment and disposable email detection
+  - name: Account
+    description: Account balance and usage history
+
+paths:
+  /v1/:
+    get:
+      tags:
+        - Validation
+      summary: Validate Single Email Address
+      description: >
+        Validates a single email address and returns detailed validation results
+        including deliverability status, disposable detection, role-based detection,
+        free email provider detection, and optional data enrichment. Up to 5 concurrent
+        calls are supported.
+      operationId: validateEmail
+      parameters:
+        - name: api
+          in: query
+          required: true
+          schema:
+            type: string
+            example: YOUR_API_KEY
+          description: Your DeBounce API key
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+            example: test@example.com
+          description: The email address to validate
+        - name: photo
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: If true, returns a profile photo URL (additional credits apply)
+        - name: append
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: If true, enriches response with full name and avatar (additional credits apply)
+        - name: gsuite
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: If true, detects G Suite accept-all emails
+      responses:
+        '200':
+          description: Validation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleValidationResponse'
+              examples:
+                safe_to_send:
+                  summary: Safe to Send example
+                  value:
+                    debounce:
+                      email: someemail@gmail.com
+                      code: '5'
+                      role: 'false'
+                      free_email: 'true'
+                      result: Safe to Send
+                      reason: Deliverable
+                      send_transactional: '1'
+                      did_you_mean: ''
+                    success: '1'
+                    balance: '329918'
+                invalid:
+                  summary: Invalid email example
+                  value:
+                    debounce:
+                      email: notavalid@nonexistent.tld
+                      code: '3'
+                      role: 'false'
+                      free_email: 'false'
+                      result: Invalid
+                      reason: Undeliverable
+                      send_transactional: '0'
+                      did_you_mean: ''
+                    success: '1'
+                    balance: '329917'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                debounce:
+                  error: Wrong API
+                  code: '0'
+                success: '0'
+        '402':
+          description: Insufficient credits
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                debounce:
+                  error: Credits Low
+                  code: '0'
+                success: '0'
+        '429':
+          description: Too many requests or daily limit reached
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                concurrent_limit:
+                  summary: Maximum concurrent calls reached
+                  value:
+                    debounce:
+                      error: Maximum concurrent calls reached
+                      code: '0'
+                    success: '0'
+                daily_limit:
+                  summary: Daily limit reached
+                  value:
+                    debounce:
+                      error: Authentication Failed - The maximum number of calls per day reached.
+                    success: '0'
+
+  /v1/bulk/:
+    post:
+      tags:
+        - Bulk
+      summary: Upload Email List for Bulk Validation
+      description: >
+        Uploads a list of email addresses for asynchronous bulk validation processing.
+        Bulk validation operates asynchronously and a list ID is returned for polling
+        status or receiving webhook notifications on completion.
+      operationId: bulkUpload
+      parameters:
+        - name: api
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Your DeBounce API key
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: CSV or TXT file containing email addresses (one per line)
+                name:
+                  type: string
+                  description: Optional name for the bulk list
+          application/json:
+            schema:
+              type: object
+              required:
+                - emails
+              properties:
+                emails:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+                  description: Array of email addresses to validate
+                name:
+                  type: string
+                  description: Optional name for the bulk list
+      responses:
+        '200':
+          description: Bulk list upload accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUploadResponse'
+              example:
+                success: '1'
+                list_id: '12345'
+                message: File uploaded successfully. Processing started.
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '402':
+          description: Insufficient credits
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/bulk/{list_id}:
+    get:
+      tags:
+        - Bulk
+      summary: Get Bulk Validation Status
+      description: >
+        Retrieves the processing status and results of a previously submitted bulk
+        email validation list. Poll this endpoint to check progress, or use webhooks
+        for completion notifications.
+      operationId: getBulkStatus
+      parameters:
+        - name: api
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Your DeBounce API key
+        - name: list_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The list ID returned from the bulk upload endpoint
+      responses:
+        '200':
+          description: Bulk list status retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkStatusResponse'
+              example:
+                success: '1'
+                list_id: '12345'
+                status: completed
+                total: 1000
+                processed: 1000
+                safe: 750
+                invalid: 150
+                risky: 75
+                unknown: 25
+                download_url: https://api.debounce.io/v1/bulk/12345/download
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: List not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/disposable/:
+    get:
+      tags:
+        - Data
+      summary: Check Disposable Email Domain
+      description: >
+        Checks whether the given email address or domain belongs to a known disposable
+        or temporary email provider. This is a lightweight, real-time check against
+        DeBounce's continuously updated list of disposable email domains.
+      operationId: checkDisposable
+      parameters:
+        - name: api
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Your DeBounce API key
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+          description: The email address to check for disposable domain
+      responses:
+        '200':
+          description: Disposable check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisposableResponse'
+              examples:
+                disposable:
+                  summary: Disposable email detected
+                  value:
+                    debounce:
+                      email: user@mailinator.com
+                      disposable: 'true'
+                    success: '1'
+                not_disposable:
+                  summary: Not a disposable email
+                  value:
+                    debounce:
+                      email: user@gmail.com
+                      disposable: 'false'
+                    success: '1'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/balance/:
+    get:
+      tags:
+        - Account
+      summary: Get Account Balance
+      description: >
+        Returns the current credit balance remaining on your DeBounce account.
+        Credits never expire and are consumed on a pay-as-you-go basis.
+      operationId: getAccountBalance
+      parameters:
+        - name: api
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Your DeBounce API key
+      responses:
+        '200':
+          description: Account balance retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+              example:
+                success: '1'
+                balance: '329918'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/usage/:
+    get:
+      tags:
+        - Account
+      summary: Get API Usage History
+      description: >
+        Returns daily API usage statistics and credit consumption history for your
+        DeBounce account. Useful for monitoring usage patterns and tracking costs.
+      operationId: getApiUsage
+      parameters:
+        - name: api
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Your DeBounce API key
+        - name: start
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Start date for usage report (YYYY-MM-DD)
+        - name: end
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: End date for usage report (YYYY-MM-DD)
+      responses:
+        '200':
+          description: Usage history retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageResponse'
+              example:
+                success: '1'
+                usage:
+                  - date: '2026-06-01'
+                    calls: 5420
+                    credits_used: 5420
+                  - date: '2026-06-02'
+                    calls: 3210
+                    credits_used: 3210
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    SingleValidationResponse:
+      type: object
+      properties:
+        debounce:
+          $ref: '#/components/schemas/ValidationResult'
+        success:
+          type: string
+          enum:
+            - '0'
+            - '1'
+          description: Whether the API call was successful (1) or not (0)
+        balance:
+          type: string
+          description: Remaining credit balance after this call
+
+    ValidationResult:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: The email address that was validated
+        code:
+          type: string
+          description: >
+            DeBounce validation response code. See
+            https://help.debounce.com/understanding-results/result-codes/ for details.
+        role:
+          type: string
+          enum:
+            - 'true'
+            - 'false'
+          description: Whether the email is role-based (sales@, info@, webmaster@, etc.)
+        free_email:
+          type: string
+          enum:
+            - 'true'
+            - 'false'
+          description: Whether the email is from a free provider such as Gmail or Yahoo
+        result:
+          type: string
+          enum:
+            - Invalid
+            - Risky
+            - Safe to Send
+            - Unknown
+          description: The final validation result determining suitability for marketing emails
+        reason:
+          type: string
+          description: The reason for the given result (e.g., Deliverable, Undeliverable, Catch-All)
+        send_transactional:
+          type: string
+          enum:
+            - '0'
+            - '1'
+          description: Whether sending transactional email to this address is recommended (1=yes, 0=no)
+        did_you_mean:
+          type: string
+          description: Suggested corrected email address if a typo was detected
+        photo:
+          type: string
+          format: uri
+          description: Profile photo URL (only present if photo=true parameter was passed)
+        name:
+          type: string
+          description: Full name associated with email (only present if append=true parameter was passed)
+        avatar:
+          type: string
+          format: uri
+          description: Avatar URL (only present if append=true parameter was passed)
+
+    BulkUploadResponse:
+      type: object
+      properties:
+        success:
+          type: string
+          enum:
+            - '0'
+            - '1'
+        list_id:
+          type: string
+          description: Unique identifier for the submitted bulk list
+        message:
+          type: string
+          description: Status message
+
+    BulkStatusResponse:
+      type: object
+      properties:
+        success:
+          type: string
+          enum:
+            - '0'
+            - '1'
+        list_id:
+          type: string
+          description: The bulk list identifier
+        status:
+          type: string
+          enum:
+            - pending
+            - processing
+            - completed
+            - failed
+          description: Current processing status of the bulk list
+        total:
+          type: integer
+          description: Total number of email addresses in the list
+        processed:
+          type: integer
+          description: Number of email addresses processed so far
+        safe:
+          type: integer
+          description: Count of Safe to Send results
+        invalid:
+          type: integer
+          description: Count of Invalid results
+        risky:
+          type: integer
+          description: Count of Risky results
+        unknown:
+          type: integer
+          description: Count of Unknown results
+        download_url:
+          type: string
+          format: uri
+          description: URL to download the completed validation results file
+
+    DisposableResponse:
+      type: object
+      properties:
+        debounce:
+          type: object
+          properties:
+            email:
+              type: string
+              format: email
+              description: The email address checked
+            disposable:
+              type: string
+              enum:
+                - 'true'
+                - 'false'
+              description: Whether the email belongs to a disposable email provider
+        success:
+          type: string
+          enum:
+            - '0'
+            - '1'
+
+    BalanceResponse:
+      type: object
+      properties:
+        success:
+          type: string
+          enum:
+            - '0'
+            - '1'
+        balance:
+          type: string
+          description: Current remaining credit balance
+
+    UsageResponse:
+      type: object
+      properties:
+        success:
+          type: string
+          enum:
+            - '0'
+            - '1'
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageDay'
+
+    UsageDay:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date for this usage record (YYYY-MM-DD)
+        calls:
+          type: integer
+          description: Number of API calls made on this date
+        credits_used:
+          type: integer
+          description: Number of credits consumed on this date
+
+    ErrorResponse:
+      type: object
+      properties:
+        debounce:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Human-readable error message
+            code:
+              type: string
+              description: Error code
+        success:
+          type: string
+          enum:
+            - '0'
+          description: Always '0' for error responses
+
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api
+      description: >
+        DeBounce API key passed as the 'api' query parameter. Obtain your API key
+        from the DeBounce account dashboard at https://app.debounce.io/.
