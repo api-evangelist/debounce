@@ -1,0 +1,102 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://debounce.com/solutions/javascript-widget/,
+  https://debounce.com/integrations/wordpress-plugin/,
+  https://debounce.com/integrations/,
+  https://workspace.google.com/marketplace/app/debounce_for_google_sheets/160333450929
+description: >-
+  DeBounce ships client-side and embedded surfaces that are distinct from server
+  SDKs: a drop-in browser widget that attaches real-time validation to any form,
+  and two host-application integrations (WordPress, Google Sheets) that wrap the
+  same API for non-developers. These are the low-code path onto the API and they
+  are what most DeBounce customers actually deploy.
+
+families:
+- family: browser-widget
+  name: Real-Time JavaScript Validation Widget
+  description: >-
+    A single script tag pasted before the closing </body> tag. Once loaded the
+    widget auto-detects email fields on the page and validates on type or blur,
+    checking formatting, disposable domains, mailbox existence and typo domains
+    before the form can submit. No backend work is required.
+  loader:
+    tag: <script src="https://cdn.debounce.io/widget.js"></script>
+    url: https://cdn.debounce.io/widget.js
+    versioned: false
+    integrity: null
+  auth:
+    key_class: public
+    prefix: public_
+    requirement: >-
+      Requires a `public_`-prefixed key with the calling domain added to the
+      key's approved CORS domain list.
+    limit: 20 validations per internet IP address per day
+  supported_hosts:
+  - WordPress
+  - ClickFunnels
+  - Leadpages
+  - Plain HTML forms
+  ux:
+    on_failure_message: You performed many validations
+  docs: https://debounce.com/solutions/javascript-widget/
+  x-evidence:
+    url: https://cdn.debounce.io/widget.js
+    fetched: '2026-08-14'
+    http_status: 200
+    content_length: 0
+    content_type: image/jpeg
+    note: >-
+      The documented loader answered 200 with an EMPTY body and an image/jpeg
+      content-type at probe time, with and without a browser User-Agent and a
+      debounce.com Referer. Recorded exactly as observed; not asserted as broken
+      for all callers, but a consumer cannot verify the asset from the documented
+      URL either. The distribution is also unpinned — see
+      packages/debounce-packages.yml.
+
+- family: host-application-plugin
+  name: DeBounce Email Validator for WordPress
+  description: >-
+    Official WordPress plugin that validates addresses at registration, comment
+    and form-submission time inside WordPress and common form builders.
+  distribution:
+    registry: wordpress.org
+    slug: debounce-io-email-validator
+    url: https://wordpress.org/plugins/debounce-io-email-validator/
+    version: 5.8.9
+    published: '2026-08-13'
+  docs: https://debounce.com/integrations/wordpress-plugin/
+  official: true
+
+- family: host-application-addon
+  name: DeBounce for Google Sheets
+  description: >-
+    Google Workspace add-on that validates a column of email addresses in place
+    inside a spreadsheet, consuming the same account credits.
+  distribution:
+    registry: google-workspace-marketplace
+    url: https://workspace.google.com/marketplace/app/debounce_for_google_sheets/160333450929
+    version: null
+  docs: https://debounce.com/integrations/google-sheets/
+  official: true
+
+- family: no-code-automation
+  name: DeBounce for Zapier
+  description: >-
+    Zapier app exposing validation as a step in automated workflows, used to
+    filter new leads before they reach a CRM or ESP.
+  docs: https://debounce.com/integrations/zapier/
+  official: true
+
+related_surfaces:
+  integrations_directory: https://debounce.com/integrations/
+  note: >-
+    DeBounce advertises 100+ ESP/CRM integrations (Mailchimp, HubSpot, Klaviyo,
+    Brevo, ActiveCampaign, MailerLite, Mailjet, Drip, Shopify and others). Those
+    are list-sync connectors rather than embeddable UI components and are not
+    catalogued individually here.
+
+summary:
+  families: 4
+  embeddable_ui_components: 1
+  host_application_integrations: 3

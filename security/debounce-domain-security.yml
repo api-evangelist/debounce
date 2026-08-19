@@ -1,18 +1,68 @@
-generated: '2026-07-11'
+generated: '2026-08-14'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: debounce.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Aug 17 22:26:01 2026 GMT
+  cert_expires: Oct 15 22:47:55 2026 GMT
   hsts: true
   hsts_max_age: 31536000
+- host: developers.debounce.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  1 19:29:30 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
 - host: api.debounce.io
   https: true
   tls_version: TLSv1.3
-  cert_expires: Aug 31 09:17:08 2026 GMT
+  cert_expires: Oct 29 16:00:41 2026 GMT
   hsts: null
+- host: bulk.debounce.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 29 16:00:41 2026 GMT
+  hsts: null
+  source: manual probe — added 2026-08-14 for the bulk.debounce.io servers[] host
+- host: disposable.debounce.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 29 16:00:41 2026 GMT
+  hsts: null
+  source: manual probe — added 2026-08-14 for the disposable.debounce.io servers[] host
+- host: logo.debounce.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 15 22:47:55 2026 GMT
+  hsts: null
+  source: manual probe — added 2026-08-14 for the Logo API host
+- host: app.debounce.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 29 16:00:41 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+  source: manual probe — added 2026-08-14 for the signup/dashboard host
+findings:
+- >-
+  HSTS is set on the marketing site (debounce.com), the developer portal
+  (developers.debounce.com, max-age 63072000 — the longest in the profile) and
+  the dashboard (app.debounce.io), but on NONE of the four API hosts:
+  api.debounce.io, bulk.debounce.io, disposable.debounce.io and
+  logo.debounce.com all answer without a Strict-Transport-Security header. Since
+  the API key travels in the query string, an API host without HSTS is the
+  weakest link in this profile.
+- >-
+  Neither registrable domain has DNSSEC enabled. debounce.com publishes no CAA
+  record at all; debounce.io does.
+- >-
+  Both domains publish SPF and a DMARC policy of p=reject, which is the strong
+  posture expected of an email-deliverability vendor.
+- >-
+  No RFC 9116 security.txt is served on any host, and no vulnerability
+  disclosure program or trust center was found — see
+  well-known/debounce-well-known.yml.
 domains:
 - domain: debounce.com
   dnssec: false
@@ -23,12 +73,12 @@ domains:
 - domain: debounce.io
   dnssec: false
   caa:
+  - 0 issuewild "letsencrypt.org"
+  - 0 issuewild "pki.goog; cansignhttpexchanges=yes"
+  - 0 issuewild "ssl.com"
+  - 0 issue "comodoca.com"
   - 0 issue "digicert.com; cansignhttpexchanges=yes"
   - 0 issue "letsencrypt.org"
-  - 0 issue "pki.goog; cansignhttpexchanges=yes"
-  - 0 issue "ssl.com"
-  - 0 issuewild "comodoca.com"
-  - 0 issuewild "digicert.com; cansignhttpexchanges=yes"
   spf: true
   dmarc: true
   dmarc_policy: reject

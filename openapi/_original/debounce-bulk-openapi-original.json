@@ -1,0 +1,329 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DeBounce Bulk Email Validation API",
+    "description": "Bulk email list upload and status checking endpoints.",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://bulk.debounce.io"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/v1/upload/": {
+      "get": {
+        "summary": "Perform bulk email validation",
+        "description": "Perform a bulk email validation request via API.",
+        "operationId": "uploadBulkList",
+        "parameters": [
+          {
+            "name": "api",
+            "in": "query",
+            "description": "Your DeBounce API key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "url",
+            "in": "query",
+            "description": "URL of your .csv or .txt email list, starting with https and uploaded in your server.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bulk upload accepted and processing started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkUploadResult"
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Successful bulk validation upload",
+                    "value": {
+                      "debounce": {
+                        "list_id": "8620",
+                        "list_name": "test-list"
+                      },
+                      "success": "1"
+                    }
+                  },
+                  "maxReqs-reached": {
+                    "summary": "Maximum bulk verify requests reached",
+                    "value": {
+                      "debounce": {
+                        "error": "You have reached the maximum number of API bulk verify requests. Please try after the existing request completes."
+                      },
+                      "success": "0"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid URL or file format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "debounce": {
+                    "error": "URL parameter is not valid."
+                  },
+                  "success": "0"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "debounce": {
+                    "error": "Wrong API",
+                    "code": "0"
+                  },
+                  "success": "0"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required - Insufficient credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "debounce": {
+                    "error": "You have exhausted your credits, please add additional credits to continue."
+                  },
+                  "success": "0"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - Maximum concurrent calls reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "debounce": {
+                    "error": "Maximum concurrent calls reached"
+                  },
+                  "success": "0"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/status/": {
+      "get": {
+        "summary": "Check bulk validation status",
+        "operationId": "checkBulkStatus",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "query",
+            "description": "The list ID returned from the upload request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkStatusResult"
+                },
+                "examples": {
+                  "processing": {
+                    "summary": "List is currently being processed",
+                    "value": {
+                      "debounce": {
+                        "list_id": "20664",
+                        "status": "processing",
+                        "percentage": 39,
+                        "download_link": ""
+                      },
+                      "success": "1"
+                    }
+                  },
+                  "completed": {
+                    "summary": "Validation completed",
+                    "value": {
+                      "debounce": {
+                        "list_id": "20664",
+                        "status": "completed",
+                        "percentage": 100,
+                        "download_link": "https://cdn.debounce.io/get/report/20664-5efwsdbsccsd.csv"
+                      },
+                      "success": "1"
+                    }
+                  },
+                  "error": {
+                    "summary": "Invalid list ID",
+                    "value": {
+                      "debounce": {
+                        "error": "List ID is not valid."
+                      },
+                      "success": "0"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BulkUploadResult": {
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "properties": {
+          "debounce": {
+            "type": "object",
+            "properties": {
+              "list_id": {
+                "description": "Unique identifier for the uploaded list",
+                "type": "string"
+              },
+              "list_name": {
+                "description": "Name of the uploaded list",
+                "type": "string"
+              }
+            }
+          },
+          "success": {
+            "description": "Whether the upload was successful",
+            "type": "string",
+            "enum": [
+              "0",
+              "1"
+            ]
+          }
+        }
+      },
+      "BulkStatusResult": {
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "properties": {
+          "debounce": {
+            "type": "object",
+            "properties": {
+              "list_id": {
+                "description": "Unique identifier for the list",
+                "type": "string"
+              },
+              "status": {
+                "description": "Current processing status",
+                "type": "string",
+                "enum": [
+                  "processing",
+                  "completed"
+                ]
+              },
+              "percentage": {
+                "description": "Processing completion percentage",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "download_link": {
+                "description": "Download link for completed results",
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          },
+          "success": {
+            "description": "Whether the status request was successful",
+            "type": "string",
+            "enum": [
+              "0",
+              "1"
+            ]
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "debounce": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              }
+            }
+          },
+          "success": {
+            "type": "string",
+            "enum": [
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyQuery": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "api",
+        "description": "API key for authentication"
+      }
+    }
+  }
+}

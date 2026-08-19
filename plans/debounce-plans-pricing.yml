@@ -1,11 +1,42 @@
 name: DeBounce Plans and Pricing
+generated: '2026-08-14'
+method: searched
+source: https://debounce.com/pricing/
 description: >
   DeBounce uses a pay-as-you-go credit-based pricing model with no monthly
   subscription required. Credits are purchased in volume packages and never
-  expire. All features are available at every credit tier. Volume discounts
-  apply as the quantity of credits purchased increases.
+  expire. All features — including full API access — are available at every
+  credit tier. Volume discounts apply as the quantity of credits purchased
+  increases. There is no enterprise "contact us" wall on the standard ladder;
+  a separate enterprise page exists for high-volume arrangements.
 specificationVersion: '0.1'
 url: https://debounce.com/pricing/
+plan_count: 9
+
+x-verification:
+  fetched: '2026-08-14'
+  url: https://debounce.com/pricing/
+  http_status: 200
+  reconfirmed:
+  - The credit-package ladder 5K / 50K / 100K / 200K / 500K / 1M / 2M / 5M
+  - 100 free credits on signup, no credit card required
+  - Credits never expire; no contracts; no setup cost; no overages
+  - 'Credit costs: 1 per email validation, 20 per successful data enrichment,
+    10 per catch-all validation, 2x list size per month for list monitoring'
+  - Full feature access and API access included on every package
+  - Free deduplication — duplicates are not charged
+  not_reconfirmed:
+  - >-
+    The per-tier dollar amounts below. The pricing page computes them
+    client-side from a volume slider, so they are not present in the served
+    HTML and could not be re-read on this pass; they are carried forward from
+    the earlier capture.
+  discrepancy:
+  - >-
+    The page advertises a floor of "From $0.00045 per Check", which matches the
+    1M tier below — but the 2M and 5M tiers below are recorded at $0.0004 and
+    $0.00035, beneath that advertised floor. Either the advertised floor or the
+    two largest tiers is stale. Flagged, not silently corrected.
 
 pricing:
   model: pay-as-you-go

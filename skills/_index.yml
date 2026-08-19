@@ -1,0 +1,45 @@
+generated: '2026-08-14'
+method: searched
+source: https://developers.debounce.com/.well-known/agent-skills/de-bounce/skill.md
+description: >-
+  DeBounce publishes its own Agent Skill from its developer portal and advertises
+  it from the A2A agent card at
+  https://developers.debounce.com/.well-known/agent-card.json. The skill is saved
+  verbatim — API Evangelist authored none of it.
+skills:
+- file: debounce-de-bounce.md
+  name: De Bounce
+  description: >-
+    Use when validating email addresses, processing bulk email lists, enriching
+    contact data with names and avatars, or monitoring account usage and credit
+    balance. Reach for this skill when building signup flows, CRM integrations,
+    email verification workflows, or any application requiring email quality
+    checks.
+  method: searched
+  source: https://developers.debounce.com/.well-known/agent-skills/de-bounce/skill.md
+  advertised_by: a2a/debounce-agent-card.json
+  api: openapi/debounce-validation-api-openapi.yml
+  operations:
+  - validateEmail
+  - uploadBulkList
+  - checkBulkStatus
+  - getBalance
+  - getUsage
+  covers_apis:
+  - openapi/debounce-validation-api-openapi.yml
+  - openapi/debounce-bulk-api-openapi.yml
+  - openapi/debounce-account-api-openapi.yml
+  x-evidence:
+    fetched: '2026-08-14'
+    http_status: 200
+    bytes: 11683
+notes:
+- >-
+  Every operationId listed above was verified present in the OpenAPI documents
+  DeBounce publishes; the skill's own endpoint table (/v1/, /v1/upload/,
+  /v1/status/, /v1/balance/, /v1/usage/) matches those specs path for path.
+- >-
+  The skill does not cover the reverse email lookup endpoint (/v1/reverse/,
+  reverseEmailLookup), the free disposable detector
+  (disposable.debounce.io, checkDisposableEmail) or the free Logo API — those
+  three surfaces are documented but have no packaged skill.

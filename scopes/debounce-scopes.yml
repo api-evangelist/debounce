@@ -1,0 +1,72 @@
+generated: '2026-08-14'
+method: probed
+source: https://debounce.com/.well-known/oauth-authorization-server
+docs: null
+description: >-
+  DeBounce's REST validation API declares NO oauth2 security scheme — it is an
+  api-key-in-query surface end to end (see authentication/). The one OAuth
+  authorization server DeBounce operates is bound to the WordPress-hosted MCP
+  endpoint on the marketing site, and it publishes exactly one scope. This file
+  records that scope surface as probed from the provider's own RFC 8414 metadata;
+  no scope reference page is published, and none is invented here.
+
+applies_to:
+  resource: https://debounce.com/wp-json/mcp/novamira-oauth
+  kind: mcp-server
+  not_applicable_to:
+  - https://api.debounce.io
+  - https://bulk.debounce.io
+  - https://disposable.debounce.io
+  - https://logo.debounce.com
+
+schemes:
+- name: novamira-oauth
+  type: oauth2
+  source: well-known/debounce-oauth-authorization-server.json
+  issuer: https://debounce.com
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://debounce.com/wp-admin/admin.php?page=novamira-oauth-authorize
+    tokenUrl: https://debounce.com/wp-json/novamira/v1/oauth/token
+    refreshUrl: https://debounce.com/wp-json/novamira/v1/oauth/token
+  pkce:
+  - S256
+  grant_types_supported:
+  - authorization_code
+  - refresh_token
+  response_types_supported:
+  - code
+  token_endpoint_auth_methods_supported:
+  - none
+  registration_endpoint: https://debounce.com/wp-json/novamira/v1/oauth/register
+  revocation_endpoint: https://debounce.com/wp-json/novamira/v1/oauth/revoke
+  introspection_endpoint: https://debounce.com/wp-json/novamira/v1/oauth/introspect
+
+scopes:
+- scope: mcp
+  description: >-
+    The single scope the authorization server advertises. Grants a client access
+    to the protected MCP resource at
+    https://debounce.com/wp-json/mcp/novamira-oauth. The provider publishes no
+    finer-grained breakdown of what the scope permits.
+  flows:
+  - authorizationCode
+  sources:
+  - well-known/debounce-oauth-authorization-server.json
+  - well-known/debounce-oauth-protected-resource.json
+
+summary:
+  scope_count: 1
+  oauth2_on_the_rest_api: false
+
+x-evidence:
+- url: https://debounce.com/.well-known/oauth-authorization-server
+  fetched: '2026-08-14'
+  http_status: 200
+- url: https://debounce.com/.well-known/oauth-protected-resource
+  fetched: '2026-08-14'
+  http_status: 200
+- url: https://debounce.com/wp-json/mcp/novamira-oauth
+  fetched: '2026-08-14'
+  http_status: 401
+  note: tools/list rejected with rest_oauth_required, confirming the resource is live and gated.

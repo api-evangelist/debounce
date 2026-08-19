@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "DeBounce Email Validation API — Data Enrichment",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api",
+      "value": "{{api}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Reverse email lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.debounce.io/v1/reverse/",
+            "params": [
+              {
+                "name": "api",
+                "value": "",
+                "type": "query",
+                "description": "Your DeBounce API key"
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "The email address to lookup"
+              }
+            ]
+          },
+          "docs": "Reverse email lookup to find additional data associated with an email address"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "DeBounce Email Validation API — Single Validation",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api",
+      "value": "{{api}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Validation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Validate Single Email Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.debounce.io/v1/",
+            "params": [
+              {
+                "name": "api",
+                "value": "",
+                "type": "query",
+                "description": "Your DeBounce API key"
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "The email address you want to validate"
+              },
+              {
+                "name": "photo",
+                "value": "",
+                "type": "query",
+                "description": "If set to true, returns profile photo (extra credits apply)"
+              },
+              {
+                "name": "append",
+                "value": "",
+                "type": "query",
+                "description": "If set to true, enriches with full name and avatar (extra credits apply)"
+              },
+              {
+                "name": "gsuite",
+                "value": "",
+                "type": "query",
+                "description": "If set to true, detects G Suite accept-all emails"
+              }
+            ]
+          },
+          "docs": "Validates a single email address and returns detailed validation results"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

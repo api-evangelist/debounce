@@ -1,0 +1,140 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  registry queries against npm, PyPI, Packagist, RubyGems, crates.io and the
+  WordPress.org plugin API, plus the DeBounce GitHub organization
+  (https://github.com/debounceio) and the integrations pages on debounce.com
+description: >-
+  DeBounce publishes NO first-party client SDK library on any language package
+  registry. What it does distribute officially is platform plugins and sample
+  code: a WordPress plugin on WordPress.org, a Google Sheets add-on on Google
+  Workspace Marketplace, an unpinned JavaScript widget loader on its own CDN, and
+  a single PHP sample script on GitHub. Integrators call the REST API directly
+  with an HTTP client. Because the API is a query-string GET surface with no
+  request bodies, the absence of an SDK is a lower cost here than it would be for
+  most APIs — but it is still an absence, and it is recorded as one.
+
+packages:
+- language: php
+  registry: wordpress.org
+  name: debounce-io-email-validator
+  display_name: DeBounce Email Validator
+  url: https://wordpress.org/plugins/debounce-io-email-validator/
+  install: Install "DeBounce Email Validator" from the WordPress plugin directory
+  official: true
+  kind: platform-plugin
+  version: 5.8.9
+  published: '2026-08-13'
+  first_published: '2018-09-15'
+  downloads: 23881
+  official_evidence: >-
+    Published under the WordPress.org author profile
+    https://profiles.wordpress.org/debounce/ and linked as the official plugin
+    from https://debounce.com/integrations/wordpress-plugin/.
+  note: >-
+    Actively maintained — the current release shipped the day before this probe.
+    This is the freshest first-party distribution DeBounce has.
+  x-evidence:
+    source: https://api.wordpress.org/plugins/info/1.0/debounce-io-email-validator.json
+    fetched: '2026-08-14'
+    http_status: 200
+
+- language: javascript
+  registry: cdn
+  name: widget.js
+  display_name: DeBounce real-time validation widget
+  url: https://cdn.debounce.io/widget.js
+  install: <script src="https://cdn.debounce.io/widget.js"></script>
+  official: true
+  kind: browser-widget
+  version: null
+  published: null
+  note: >-
+    The distribution is UNPINNED — the documented snippet on
+    https://debounce.com/solutions/javascript-widget/ loads a bare
+    cdn.debounce.io/widget.js with no version segment and no integrity hash, so a
+    consumer cannot tell which build they are getting and neither can this probe.
+    There is no jsDelivr/unpkg metadata endpoint for a vendor CDN. Recorded as
+    null after checking, not as unchecked. Separately, a live GET of that exact
+    URL returned HTTP 200 with content-length 0 and content-type image/jpeg on
+    2026-08-14, both with and without a browser User-Agent and Referer — the
+    documented loader served an empty body at probe time.
+  x-evidence:
+    url: https://cdn.debounce.io/widget.js
+    fetched: '2026-08-14'
+    http_status: 200
+    content_length: 0
+    content_type: image/jpeg
+
+- language: apps-script
+  registry: google-workspace-marketplace
+  name: DeBounce for Google Sheets
+  url: https://workspace.google.com/marketplace/app/debounce_for_google_sheets/160333450929
+  install: Install the add-on from Google Workspace Marketplace
+  official: true
+  kind: platform-addon
+  version: null
+  published: null
+  note: >-
+    Google Workspace Marketplace exposes no unauthenticated version/date metadata
+    endpoint, so version and published date are null after checking. Linked as
+    official from the debounce.com footer.
+  x-evidence:
+    url: https://workspace.google.com/marketplace/app/debounce_for_google_sheets/160333450929
+    fetched: '2026-08-14'
+    http_status: 200
+
+- language: php
+  registry: github
+  name: debounceio/api-php
+  url: https://github.com/debounceio/api-php
+  install: git clone https://github.com/debounceio/api-php
+  official: true
+  kind: sample-code
+  version: null
+  published: null
+  note: >-
+    "PHP Sample code of DeBounce email verification API call." The repository
+    contains a README and a single verify.php script — it is example code, not a
+    packaged library, and it is not published to Packagist (a
+    repo.packagist.org lookup for a debounce vendor returned 404). It is the ONLY
+    repository in the debounceio GitHub organization. Recorded as version null
+    because there is no registry release to read.
+  x-evidence:
+    url: https://github.com/debounceio/api-php
+    fetched: '2026-08-14'
+    http_status: 200
+
+registries_checked:
+- registry: npm
+  result: none
+  detail: >-
+    A search for "debounce email validation" returns only unrelated
+    debounce-the-function-utility packages; the @debounce scope does not exist
+    (registry.npmjs.org/@debounce/sdk -> 404) and a maintainer:debounce search
+    returns 0 results.
+- registry: pypi
+  result: none
+  detail: debounce, debounceio, pydebounce and debounce-api all return 404.
+- registry: packagist
+  result: none
+  detail: repo.packagist.org/packages/debounce/debounce.json -> 404.
+- registry: wordpress.org
+  result: hit
+  detail: debounce-io-email-validator 5.8.9.
+- registry: rubygems
+  result: none
+- registry: crates.io
+  result: none
+- registry: maven-central
+  result: none
+- registry: nuget
+  result: none
+- registry: pkg.go.dev
+  result: none
+
+summary:
+  official_packages: 4
+  official_client_sdk_libraries: 0
+  registry_published_with_a_readable_version: 1
+  most_recent_first_party_release: '2026-08-13'

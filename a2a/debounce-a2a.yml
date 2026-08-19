@@ -1,0 +1,59 @@
+generated: '2026-08-14'
+method: probed
+source: https://developers.debounce.com/.well-known/agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: developers.debounce.com
+  note: >-
+    Served from DeBounce's own developer portal host. The legacy
+    /.well-known/agent.json path 404s on this host, and every other host in the
+    profile (debounce.com, api.debounce.io, bulk.debounce.io,
+    disposable.debounce.io, app.debounce.io) 404s on both paths. This host also
+    404s the other /.well-known/* probes, so the 200 is a real document and not
+    an SPA catch-all.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: '0.3'
+  preferred_transport: HTTP+JSON
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  optional_fields_present:
+  - preferredTransport
+  - defaultInputModes
+  - defaultOutputModes
+  - provider
+  - documentationUrl
+  deviations:
+  - id: supportedInterfaces-instead-of-additionalInterfaces
+    detail: >-
+      The card carries a supportedInterfaces[] array; A2A 1.0.0 renamed this
+      field to additionalInterfaces. Pre-1.0 naming, not a hard failure.
+  - id: skill-tags-empty
+    detail: The single declared skill carries an empty tags[] array.
+card:
+  name: DeBounce API
+  url: https://developers.debounce.com/
+  version: 1.0.0
+  protocolVersion: '0.3'
+  provider: DeBounce API
+  documentationUrl: https://developers.debounce.com/
+  capabilities:
+    streaming: false
+    pushNotifications: false
+  skills: 1
+  skill_ids:
+  - de-bounce
+  file: debounce-agent-card.json
+related:
+  agent_skill: skills/debounce-de-bounce.md
+  agent_skill_source: https://developers.debounce.com/.well-known/agent-skills/de-bounce/skill.md
+  mcp: mcp/debounce-mcp.yml
+x-evidence:
+  fetched: '2026-08-14'
+  url: https://developers.debounce.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json

@@ -1,0 +1,117 @@
+generated: '2026-08-14'
+method: derived
+source: mcp/debounce-mcp.yml + openapi/
+description: >-
+  Binds every MCP tool DeBounce publishes to the OpenAPI operation that backs it.
+  The result is a complete divergence: all three enumerated tools are
+  documentation-retrieval tools with no backing REST operation, and all six
+  published REST operations have no MCP tool. An agent connected to
+  https://developers.debounce.com/mcp can READ ABOUT email validation but cannot
+  PERFORM it.
+
+surfaces:
+  openapi:
+  - file: openapi/debounce-validation-api-openapi.yml
+    host: https://api.debounce.io
+    gated: false
+  - file: openapi/debounce-data-api-openapi.yml
+    host: https://api.debounce.io
+    gated: false
+  - file: openapi/debounce-account-api-openapi.yml
+    host: https://api.debounce.io
+    gated: false
+  - file: openapi/debounce-bulk-api-openapi.yml
+    host: https://bulk.debounce.io
+    gated: false
+  - file: openapi/debounce-disposable-api-openapi.yml
+    host: https://disposable.debounce.io
+    gated: false
+  graphql: null
+  mcp:
+  - url: https://developers.debounce.com/mcp
+    gated: false
+    tools_list: probed
+  - url: https://debounce.com/wp-json/mcp/novamira-oauth
+    gated: true
+    tools_list: 401 OAuth required — not enumerated, not guessed
+
+crosswalk: []
+
+mcp_only:
+- tool: search_de_bounce_api
+  server: debounce-docs
+  reason: >-
+    Documentation search over the developer portal's own content index. No
+    public REST operation exposes it.
+- tool: query_docs_filesystem_de_bounce_api
+  server: debounce-docs
+  reason: >-
+    Read-only virtualized filesystem over documentation chunks and the published
+    OpenAPI specs. Docs-infrastructure tool, no REST equivalent.
+- tool: submit_feedback
+  server: debounce-docs
+  reason: >-
+    Writes documentation feedback to the docs team. No public REST operation.
+
+rest_only:
+- capability: Single email validation
+  operations:
+  - operationId: validateEmail
+    method: get
+    path: /v1/
+    file: openapi/debounce-validation-api-openapi.yml
+- capability: Data enrichment / reverse lookup
+  operations:
+  - operationId: reverseEmailLookup
+    method: get
+    path: /v1/reverse/
+    file: openapi/debounce-data-api-openapi.yml
+- capability: Account
+  operations:
+  - operationId: getBalance
+    method: get
+    path: /v1/balance/
+    file: openapi/debounce-account-api-openapi.yml
+  - operationId: getUsage
+    method: get
+    path: /v1/usage/
+    file: openapi/debounce-account-api-openapi.yml
+- capability: Bulk list validation
+  operations:
+  - operationId: uploadBulkList
+    method: get
+    path: /v1/upload/
+    file: openapi/debounce-bulk-api-openapi.yml
+  - operationId: checkBulkStatus
+    method: get
+    path: /v1/status/
+    file: openapi/debounce-bulk-api-openapi.yml
+- capability: Free disposable detection
+  operations:
+  - operationId: checkDisposableEmail
+    method: get
+    path: /
+    file: openapi/debounce-disposable-api-openapi.yml
+
+coverage:
+  tools_named: 3
+  tools_bound_to_rest: 0
+  mcp_only: 3
+  rest_operations_total: 7
+  rest_operations_with_a_tool: 0
+  binding_rate: 0.0
+
+findings:
+- >-
+  DeBounce's MCP deployment is a documentation server, not an API server. The
+  agent-facing execution path for email validation remains the REST API with an
+  api= query-string key.
+- >-
+  The gap is bridged on the agent side by the Agent Skill DeBounce publishes
+  (skills/debounce-de-bounce.md), which teaches an agent to call the REST
+  endpoints directly. That skill, not the MCP server, is what makes this API
+  agent-usable today.
+- >-
+  The OAuth-gated WordPress MCP endpoint on debounce.com is bound to the
+  marketing site (novamira plugin), not to the validation API. Its tool set was
+  not enumerated and nothing about it is asserted here.

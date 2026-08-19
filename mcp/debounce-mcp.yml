@@ -1,0 +1,136 @@
+generated: '2026-08-14'
+method: probed
+status: published
+source: https://developers.debounce.com/mcp
+description: >-
+  DeBounce serves two Model Context Protocol endpoints from its own hosts. The
+  developer-portal server is anonymous and answers tools/list live — its three
+  tools are documentation-retrieval tools, not email-validation tools. The
+  marketing-site server is a WordPress-hosted, OAuth-gated endpoint whose tool
+  set could not be enumerated anonymously. Neither server exposes the validation,
+  bulk, enrichment or account operations as MCP tools; an agent that needs to
+  actually validate an email still calls the REST API directly.
+
+deployment:
+  mode: remote
+  endpoint: https://developers.debounce.com/mcp
+  auth: none
+  verified: probed
+  note: >-
+    No stdio/npx package is published for DeBounce; there is nothing to install.
+    Both endpoints are hosted URLs an MCP client POSTs to. A second remote
+    endpoint (https://debounce.com/wp-json/mcp/novamira-oauth) exists but
+    requires OAuth — see servers[] below.
+
+servers:
+- name: debounce-docs
+  role: documentation
+  transport: http
+  url: https://developers.debounce.com/mcp
+  auth: none
+  status: published
+  verified: probed
+  x-evidence:
+    fetched: '2026-08-14'
+    method_called: tools/list
+    http_status: 200
+    content_type: text/event-stream
+    tools_returned: 3
+  note: >-
+    Mintlify-style docs MCP bound to the DeBounce developer portal. tools/list
+    succeeds with no credentials.
+- name: debounce-wordpress
+  role: site
+  transport: http
+  url: https://debounce.com/wp-json/mcp/novamira-oauth
+  auth: oauth
+  status: published
+  verified: probed
+  discovery:
+  - well-known/debounce-oauth-protected-resource.json
+  - well-known/debounce-oauth-authorization-server.json
+  oauth:
+    authorization_server: https://debounce.com
+    scopes_supported:
+    - mcp
+    dynamic_client_registration: https://debounce.com/wp-json/novamira/v1/oauth/register
+    pkce: S256
+  x-evidence:
+    fetched: '2026-08-14'
+    method_called: tools/list
+    http_status: 401
+    body: '{"code":"rest_oauth_required","message":"OAuth authentication required."}'
+  note: >-
+    Served by the WordPress "novamira" plugin 1.11.2 on the debounce.com
+    marketing site. The live tool set requires an authenticated introspection
+    and is therefore NOT recorded here — no tools are guessed.
+
+tools:
+- name: search_de_bounce_api
+  title: Search documentation
+  server: debounce-docs
+  description: >-
+    Search across the DeBounce API knowledge base to find relevant information,
+    code examples, API references, and guides. Returns contextual content with
+    titles and direct links to the documentation pages.
+  input_schema:
+    type: object
+    required:
+    - query
+    properties:
+      query:
+        type: string
+        description: Search query
+    additionalProperties: false
+- name: query_docs_filesystem_de_bounce_api
+  server: debounce-docs
+  description: >-
+    Run a read-only shell-like query (rg / tree / ls / head / cat) against a
+    virtualized in-memory filesystem containing only the DeBounce API
+    documentation pages and OpenAPI specs. Pages are read by passing their .mdx
+    path to head or cat.
+  input_schema:
+    type: object
+    required:
+    - command
+    properties:
+      command:
+        type: string
+        description: >-
+          A shell command to run against the virtualized documentation
+          filesystem (e.g. `rg -il "keyword" /`, `tree / -L 2`,
+          `head -80 /path/file.mdx`).
+    additionalProperties: false
+- name: submit_feedback
+  title: Submit documentation feedback
+  server: debounce-docs
+  description: >-
+    Report a problem with this documentation site so the docs team can fix it.
+  input_schema:
+    type: object
+    required:
+    - path
+    - feedback
+    properties:
+      path:
+        type: string
+        minLength: 1
+        description: The documentation page path the feedback is about.
+      feedback:
+        type: string
+        minLength: 1
+        description: A clear description of the documentation issue or suggestion.
+    additionalProperties: false
+
+coverage:
+  tools_enumerated: 3
+  tools_backed_by_rest_operations: 0
+  rest_operations_total: 6
+  rest_operations_with_a_tool: 0
+  note: >-
+    See mcp/debounce-tool-crosswalk.yml. The gap is the finding: DeBounce ships
+    an MCP surface over its DOCS, not over its API.
+related:
+  agent_card: a2a/debounce-a2a.yml
+  agent_skill: skills/debounce-de-bounce.md
+  crosswalk: mcp/debounce-tool-crosswalk.yml

@@ -1,0 +1,174 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  openapi/_original/debounce-validation-openapi-original.json,
+  openapi/_original/debounce-bulk-openapi-original.json,
+  openapi/_original/debounce-disposable-openapi-original.json
+description: >-
+  Entity graph derived from the $ref links and identifier fields in the OpenAPI
+  documents DeBounce publishes. The model is deliberately flat: there are no
+  persistent, addressable resources with IDs except the bulk list. Everything
+  else is a computed result keyed on an email address, which is why the API has
+  no CRUD, no pagination and no relationships beyond the bulk job.
+
+entities:
+- name: ValidationResult
+  schema: openapi/_original/debounce-validation-openapi-original.json#/components/schemas/ValidationResult
+  kind: computed-result
+  identifier: email
+  id_prefix: null
+  persisted: false
+  fields:
+  - {name: email, type: string, format: email, role: identifier}
+  - {name: code, type: integer, role: classification, reference: https://help.debounce.com/understanding-results/result-codes/}
+  - {name: result, type: string, role: classification, enum: [Invalid, Risky, Safe to Send, Unknown]}
+  - {name: reason, type: string, role: classification}
+  - {name: role, type: boolean, role: attribute}
+  - {name: free_email, type: boolean, role: attribute}
+  - {name: send_transactional, type: integer, role: recommendation, enum: [0, 1]}
+  - {name: did_you_mean, type: string, role: suggestion}
+  - {name: success, type: integer, role: envelope}
+  - {name: balance, type: integer, role: metering}
+  note: >-
+    The optional append/photo enrichment fields (name, avatar, photo) are
+    documented on the enrichment page and were present in the earlier scaffolded
+    spec, but are NOT declared in the ValidationResult schema DeBounce publishes.
+    Recorded as a spec gap, not invented back in.
+
+- name: ReverseResult
+  schema: openapi/_original/debounce-validation-openapi-original.json#/components/schemas/ReverseResult
+  kind: computed-result
+  identifier: email
+  persisted: false
+  fields:
+  - {name: email, type: string, format: email, role: identifier}
+  - {name: data, type: object, role: payload, additionalProperties: true}
+  - {name: success, type: integer, role: envelope}
+  note: >-
+    The enrichment payload is an untyped open object — the published schema
+    declares no named contact fields, so a consumer cannot know from the contract
+    what data append returns.
+
+- name: BulkList
+  schema: openapi/_original/debounce-bulk-openapi-original.json#/components/schemas/BulkUploadResult
+  kind: resource
+  identifier: list_id
+  id_prefix: null
+  id_format: numeric string (observed examples "8620", "20664")
+  persisted: true
+  fields:
+  - {name: list_id, type: string, role: identifier}
+  - {name: list_name, type: string, role: label}
+  - {name: success, type: string, role: envelope}
+  note: >-
+    The only addressable, server-persisted object in the whole API. Created by
+    uploadBulkList, read by checkBulkStatus. There is no list, delete, or rename
+    operation — a client that loses a list_id cannot recover it through the API.
+
+- name: BulkStatus
+  schema: openapi/_original/debounce-bulk-openapi-original.json#/components/schemas/BulkStatusResult
+  kind: resource-state
+  identifier: list_id
+  persisted: true
+  fields:
+  - {name: list_id, type: string, role: identifier}
+  - {name: status, type: string, role: state, enum: [processing, completed]}
+  - {name: percentage, type: integer, role: progress, minimum: 0, maximum: 100}
+  - {name: download_link, type: string, format: uri, role: artifact}
+  - {name: success, type: string, role: envelope}
+
+- name: Balance
+  schema: openapi/_original/debounce-validation-openapi-original.json#/components/schemas/BalanceResult
+  kind: account-state
+  identifier: null
+  persisted: true
+  fields:
+  - {name: balance, type: integer, role: metering, minimum: 0}
+  - {name: success, type: integer, role: envelope}
+
+- name: Usage
+  schema: openapi/_original/debounce-validation-openapi-original.json#/components/schemas/UsageResult
+  kind: account-state
+  identifier: null
+  persisted: true
+  fields:
+  - {name: debounce.api, type: string, role: identifier}
+  - {name: debounce.start, type: string, role: window}
+  - {name: debounce.end, type: string, role: window}
+  - {name: debounce.calls, type: string, role: metering}
+  - {name: success, type: string, role: envelope}
+
+- name: DisposableResult
+  schema: openapi/_original/debounce-disposable-openapi-original.json#/components/schemas/DisposableResult
+  kind: computed-result
+  identifier: email
+  persisted: false
+  fields:
+  - {name: disposable, type: string, role: classification, values: ['true', 'false']}
+  note: Boolean-valued but typed as a string; no success envelope on this endpoint.
+
+- name: Error
+  schema: openapi/_original/debounce-validation-openapi-original.json#/components/schemas/Error
+  kind: envelope
+  fields:
+  - {name: error, type: string}
+  - {name: message, type: string}
+  - {name: debounce.error, type: string}
+  - {name: debounce.code, type: string}
+  - {name: success, type: string}
+
+relationships:
+- from: BulkList
+  to: BulkStatus
+  kind: has_one
+  via: list_id
+  evidence: >-
+    uploadBulkList returns list_id; checkBulkStatus takes list_id as its only
+    parameter and returns the same identifier.
+- from: BulkStatus
+  to: ValidationResult
+  kind: has_many
+  via: download_link
+  evidence: >-
+    The completed CSV at download_link contains one validation row per submitted
+    address. The relationship is real but leaves the API — the rows are never
+    returned as JSON and are not modelled in any schema.
+  confidence: medium
+- from: Account
+  to: Balance
+  kind: has_one
+  via: api key
+- from: Account
+  to: Usage
+  kind: has_many
+  via: api key + date window
+- from: ValidationResult
+  to: ReverseResult
+  kind: has_one
+  via: email
+  evidence: >-
+    The append=true flag on validateEmail invokes the same enrichment engine as
+    reverseEmailLookup, keyed on the same email address.
+  confidence: medium
+
+summary:
+  entities: 8
+  persisted_resources: 1
+  relationships: 5
+  primary_key_style: >-
+    email address for computed results; a numeric list_id for the one persisted
+    resource. No UUIDs, no typed id prefixes.
+
+findings:
+- >-
+  The API has exactly one addressable resource (BulkList) and no way to
+  enumerate it. list_id must be stored client-side at creation time or the job is
+  unreachable.
+- >-
+  The richest data the API produces — the per-address results of a bulk run —
+  exists only as a CSV behind download_link and is not described by any schema.
+- >-
+  ReverseResult.data is an open object, so the enrichment product has no
+  contract at all from the machine-readable surface.
+
+render: null

@@ -1,0 +1,114 @@
+{
+  "item": [
+    {
+      "id": "d740c50e-ba4e-43b1-94fc-9b310b2ef538",
+      "name": "Disposable",
+      "description": {
+        "content": "Free disposable / temporary email domain detection",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f224debc-0413-4284-91da-1b6ed0857a45",
+          "name": "Check disposable email",
+          "request": {
+            "name": "Check disposable email",
+            "description": {
+              "content": "Free API as easy as hitting a URL. Check an email address against a real-time, up-to-date list of disposable domains.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "(Required) The email address or domain to check"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fec07c19-a112-4cd8-806b-ef5870f6a09a",
+              "name": "Disposable email check completed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"disposable\": \"true\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://disposable.debounce.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "44dfc333-fbb7-41f2-a7b0-a642f28dceb5",
+    "name": "DeBounce Disposable Email Detector API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "DeBounce's free disposable email detector. A single unauthenticated GET against disposable.debounce.io checks an email address or domain against a continuously updated list of disposable and temporary email providers.\n\nContact Support:\n Name: DeBounce Support",
+      "type": "text/plain"
+    }
+  }
+}

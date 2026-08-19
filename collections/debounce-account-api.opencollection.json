@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "DeBounce Email Validation API — Account",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api",
+      "value": "{{api}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get account balance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.debounce.io/v1/balance/",
+            "params": [
+              {
+                "name": "api",
+                "value": "YOUR API KEY",
+                "type": "query",
+                "description": "Your DeBounce API key"
+              }
+            ]
+          },
+          "docs": "Get account balance"
+        },
+        {
+          "info": {
+            "name": "Get usage statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.debounce.io/v1/usage/",
+            "params": [
+              {
+                "name": "api",
+                "value": "YOUR API KEY",
+                "type": "query",
+                "description": "Your DeBounce API key"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Start date. Must be after 20-08-14 (YY-MM-DD)"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "End date. Equal or less than today's date (YY-MM-DD)"
+              }
+            ]
+          },
+          "docs": "Get usage statistics"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

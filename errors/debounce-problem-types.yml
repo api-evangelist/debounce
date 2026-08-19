@@ -1,0 +1,159 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  derived from the 4xx responses in openapi/ and enriched from
+  https://developers.debounce.com/api-concepts/https-codes and
+  https://developers.debounce.com/api-concepts/responses
+format: vendor-envelope
+rfc9457: false
+description: >-
+  DeBounce does not use RFC 9457 problem+json. Errors come back as
+  application/json with the vendor envelope {"debounce":{"error":"...","code":"0"},
+  "success":"0"} — a human-readable string in `error` and a `code` that is "0" on
+  every documented failure, so the code field does not discriminate between error
+  classes. The only machine-usable discriminators are the HTTP status and a
+  string match on the message, both recorded below.
+
+envelope:
+  content_type: application/json
+  fields:
+  - field: success
+    values: ['0']
+    meaning: always "0" on an error response
+  - field: debounce.error
+    meaning: human-readable error message — the only discriminator between failures
+  - field: debounce.code
+    meaning: >-
+      documented as an error code but returns the literal "0" on every published
+      error example. Not a usable classifier.
+  - field: debounce.loc
+    meaning: >-
+      Observed live on a 401 from https://api.debounce.io/v1/ (value "1") but
+      absent from the published Error schema. Undocumented.
+
+problems:
+- status: 401
+  title: Unauthorized
+  message: Wrong API
+  meaning: The API key is missing, invalid, or not permitted.
+  remediation: >-
+    Check the `api` query parameter carries a valid 13-character key from
+    https://app.debounce.io/api.
+  retryable: false
+  source_operations:
+  - openapi/debounce-validation-api-openapi.yml#validateEmail
+  - openapi/debounce-data-api-openapi.yml#reverseEmailLookup
+  - openapi/debounce-account-api-openapi.yml#getBalance
+  - openapi/debounce-bulk-api-openapi.yml#uploadBulkList
+  verified: probed
+  x-evidence:
+    url: https://api.debounce.io/v1/?email=test@example.com
+    fetched: '2026-08-14'
+    http_status: 401
+    body: '{"debounce":{"error":"Wrong API", "code":"0", "loc":"1"},"success":"0"}'
+
+- status: 402
+  title: Payment Required
+  message: Credits Low
+  alternate_message: You have exhausted your credits, please add additional credits to continue.
+  meaning: The account's validation credits are exhausted.
+  remediation: Purchase additional credits at https://debounce.com/pricing/ and retry.
+  retryable: false
+  source_operations:
+  - openapi/debounce-validation-api-openapi.yml#validateEmail
+  - openapi/debounce-bulk-api-openapi.yml#uploadBulkList
+
+- status: 403
+  title: Forbidden
+  meaning: The request is not allowed for this API key or operation.
+  remediation: >-
+    Most commonly a `public_` key used from an origin that is not on the key's
+    approved CORS domain list, or a public key calling a private-only operation.
+  retryable: false
+  source_operations: []
+  note: >-
+    Documented on the HTTP status codes page but declared in none of the five
+    published OpenAPI documents — a docs/spec gap.
+
+- status: 404
+  title: Bad list identifier
+  message: List ID is not valid.
+  meaning: The list_id passed to the bulk status endpoint does not exist.
+  remediation: Use the list_id returned by uploadBulkList.
+  retryable: false
+  source_operations:
+  - openapi/debounce-bulk-api-openapi.yml#checkBulkStatus
+  note: >-
+    The spec returns this condition inside a 200 response example rather than as
+    a distinct status — checkBulkStatus declares only a 200. An error here is
+    detected by reading success == "0", not by the HTTP status.
+
+- status: 400
+  title: Bad Request
+  message: URL parameter is not valid.
+  meaning: The bulk `url` parameter is not a valid https URL to a CSV/TXT list.
+  remediation: >-
+    Host the list at a public https URL ending in .csv or .txt and pass it as
+    `url`.
+  retryable: false
+  source_operations:
+  - openapi/debounce-bulk-api-openapi.yml#uploadBulkList
+  - openapi/debounce-data-api-openapi.yml#reverseEmailLookup
+
+- status: 429
+  title: Too Many Requests — concurrency
+  message: Maximum concurrent calls reached
+  meaning: >-
+    More than 5 concurrent private-key calls (2 when the append enrichment flag
+    is set) were in flight.
+  remediation: >-
+    Queue requests and back off. No Retry-After header is returned, so the client
+    must choose its own backoff.
+  retryable: true
+  source_operations:
+  - openapi/debounce-validation-api-openapi.yml#validateEmail
+  - openapi/debounce-bulk-api-openapi.yml#uploadBulkList
+
+- status: 429
+  title: Too Many Requests — daily per-IP limit
+  message: Authentication Failed - The maximum number of calls per day reached.
+  meaning: >-
+    A `public_` browser key exceeded 20 validations from one internet IP address
+    in a day.
+  remediation: >-
+    Move the call server-side with a private key, or wait for the daily window to
+    reset.
+  retryable: false
+  source_operations:
+  - openapi/debounce-validation-api-openapi.yml#validateEmail
+
+- status: 200
+  title: Bulk queue saturated
+  message: >-
+    You have reached the maximum number of API bulk verify requests. Please try
+    after the existing request completes.
+  meaning: >-
+    Only one active bulk job is permitted per account. This is returned as a
+    200 with success == "0", NOT as a 429.
+  remediation: Poll checkBulkStatus until the active job completes, then resubmit.
+  retryable: true
+  source_operations:
+  - openapi/debounce-bulk-api-openapi.yml#uploadBulkList
+
+findings:
+- >-
+  Two failure conditions (bulk queue saturated, invalid list ID) are delivered
+  inside HTTP 200 responses. A client that branches on status code alone will
+  treat both as success. Always check the `success` flag.
+- >-
+  `debounce.code` is "0" for every documented error, so there is no stable error
+  code vocabulary to switch on — remediation logic has to match on the message
+  string.
+- >-
+  No Retry-After header accompanies either 429, so backoff timing is entirely the
+  client's problem.
+
+cross_references:
+  conventions: conventions/debounce-conventions.yml
+  rate_limits: rate-limits/debounce-rate-limits.yml
+  docs: https://developers.debounce.com/api-concepts/https-codes

@@ -1,0 +1,147 @@
+generated: '2026-08-14'
+method: probed
+source: live GET of /.well-known/* on every host in apis.yml and every OpenAPI servers[] host
+description: >-
+  Discovery surface probe. Real documents were served on debounce.com
+  (OAuth 2.0 authorization-server metadata, OIDC discovery, and RFC 9728
+  protected-resource metadata for a WordPress-hosted MCP server) and on
+  developers.debounce.com (an A2A agent card). No host serves an RFC 9116
+  security.txt, an RFC 9727 api-catalog, or an ai-plugin.json.
+hosts:
+- host: debounce.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: debounce-openid-configuration.json
+    content_type: application/json
+    note: >-
+      Issuer https://debounce.com. Authorization code + refresh_token grants,
+      PKCE S256, dynamic client registration, token_endpoint_auth_methods_supported
+      "none". The single supported scope is "mcp". Served by the WordPress
+      "novamira" plugin on the marketing site, not by the validation API.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: debounce-oauth-authorization-server.json
+    content_type: application/json
+    note: RFC 8414 metadata; byte-identical to the openid-configuration document.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: debounce-oauth-protected-resource.json
+    content_type: application/json
+    note: >-
+      RFC 9728. Declares the protected resource
+      https://debounce.com/wp-json/mcp/novamira-oauth, bearer token in the
+      Authorization header, scope "mcp", novamira plugin 1.11.2.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: developers.debounce.com
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: ../a2a/debounce-agent-card.json
+    content_type: application/json
+    note: >-
+      A2A agent card; captured and graded in a2a/debounce-a2a.yml. Also points at
+      a published Agent Skill at
+      /.well-known/agent-skills/de-bounce/skill.md (200), saved to
+      skills/debounce-de-bounce.md.
+  - path: /.well-known/agent-skills/de-bounce/skill.md
+    status: 200
+    file: ../skills/debounce-de-bounce.md
+    content_type: text/markdown
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: api.debounce.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: bulk.debounce.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: disposable.debounce.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: app.debounce.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+summary:
+  hosts_probed: 6
+  paths_probed: 41
+  documents_served: 5
+  security_txt: false
+  api_catalog: false
+  oauth_metadata: true
+  agent_card: true
+x-evidence:
+  fetched: '2026-08-14'

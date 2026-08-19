@@ -1,0 +1,47 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for DeBounce Disposable Email Detector API
+  version: 1.0.0
+extends: openapi/debounce-disposable-api-openapi.yml
+x-apievangelist:
+  generated: '2026-08-14'
+  method: generated
+  source: openapi/debounce-disposable-api-openapi.yml
+  note: Captures API Evangelist enhancements only. The harvested provider document is never mutated; the
+    verbatim original lives in openapi/_original/.
+actions:
+- target: $.info
+  description: Record the API Evangelist provenance of this refined document and the verbatim source it
+    was harvested from.
+  update:
+    x-apievangelist-source: https://developers.debounce.com/api-reference/openapi-disposable.json
+    x-apievangelist-method: searched
+    x-apievangelist-harvested: '2026-08-14'
+    x-apievangelist-artifacts:
+      authentication: authentication/debounce-authentication.yml
+      conventions: conventions/debounce-conventions.yml
+      errors: errors/debounce-problem-types.yml
+      rate-limits: rate-limits/debounce-rate-limits.yml
+      lifecycle: lifecycle/debounce-lifecycle.yml
+      data-model: data-model/debounce-data-model.yml
+- target: $
+  description: 'Bind the DeBounce API Evangelist agent surface to this contract: the provider-published
+    A2A agent card, Agent Skill and MCP endpoint.'
+  update:
+    x-agent-surface:
+      agent-card: https://developers.debounce.com/.well-known/agent-card.json
+      agent-skill: https://developers.debounce.com/.well-known/agent-skills/de-bounce/skill.md
+      mcp: https://developers.debounce.com/mcp
+      llms-txt: https://developers.debounce.com/llms.txt
+- target: $
+  description: 'State the runtime semantics the contract itself does not carry: no idempotency key, no
+    rate-limit response headers, no request-id, vendor error envelope rather than RFC 9457.'
+  update:
+    x-runtime-semantics:
+      idempotency-key: null
+      rate-limit-headers: null
+      retry-after: false
+      request-id-header: null
+      error-format: vendor-envelope
+      success-flag-field: success
+      note: A response with HTTP 200 can still be a failure — always read the `success` flag.

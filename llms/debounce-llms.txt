@@ -1,0 +1,31 @@
+# DeBounce API
+
+## Docs
+
+- [DeBounce API](https://developers.debounce.com/index.md): Technical overview of the DeBounce email validation API.
+- [Authentication](https://developers.debounce.com/api-concepts/authentication.md): How to authenticate your DeBounce API requests
+- [Requests – URL Formats](https://developers.debounce.com/api-concepts/request.md): Understanding DeBounce API request structure and parameters
+- [API Responses](https://developers.debounce.com/api-concepts/responses.md): Format and structure of DeBounce API responses
+- [Rate Limiting](https://developers.debounce.com/api-concepts/rate-limiting.md): Rate limits and concurrency restrictions for DeBounce API
+- [HTTP Status Codes](https://developers.debounce.com/api-concepts/https-codes.md): List of HTTP status codes returned by the DeBounce API
+- [Single Email Validation](https://developers.debounce.com/api-reference/endpoint/single-validation.md): Single email validation options and parameters
+- [Bulk Upload](https://developers.debounce.com/api-reference/endpoint/bulk/upload.md): Perform a bulk email validation request via API.
+- [Validation Status](https://developers.debounce.com/api-reference/endpoint/bulk/status.md)
+- [Data Append (Reverse Email Lookup API)](https://developers.debounce.com/api-reference/endpoint/enrichment.md): Retrieve contact information from email addresses
+- [Account Balance](https://developers.debounce.com/api-reference/endpoint/miscellaneous/balance.md): Check your remaining validation credits
+- [API Usage History](https://developers.debounce.com/api-reference/endpoint/miscellaneous/usage.md): Track your daily API usage and credit consumption
+- [Disposable Detector](https://developers.debounce.com/api-reference/endpoint/free/disposible-detector.md): Free API as easy as hitting a URL. Check an email address against a real-time, up-to-date list of disposable domains.
+- [Logo API](https://developers.debounce.com/api-reference/endpoint/free/logo-api.md): Free company logo lookup service
+
+## OpenAPI Specs
+
+- [openapi-validation](https://developers.debounce.com/api-reference/openapi-validation.json)
+- [openapi-bulk](https://developers.debounce.com/api-reference/openapi-bulk.json)
+- [openapi-disposable](https://developers.debounce.com/api-reference/openapi-disposable.json)
+
+## Optional
+
+- [Home](https://debounce.com/)
+- [API Status](https://status.debounce.com/)
+- [Feedback](https://feedback.debounce.com/)
+- [Blog](https://debounce.com/blog/)

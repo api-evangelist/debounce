@@ -1,0 +1,154 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://developers.debounce.com/api-concepts/request,
+  https://developers.debounce.com/api-concepts/responses,
+  https://developers.debounce.com/api-concepts/authentication,
+  https://developers.debounce.com/api-concepts/rate-limiting,
+  https://developers.debounce.com/api-concepts/https-codes, and the OpenAPI
+  documents in openapi/
+description: >-
+  Cross-cutting request/response semantics for the DeBounce API. The shape is
+  deliberately minimal: every operation is a GET, every input is a query
+  parameter, and every response — success or failure — is a 200-or-error JSON
+  object with a `success` string flag and a `debounce` envelope. There is no
+  request body anywhere in the published surface, which removes whole classes of
+  convention (idempotency keys, content negotiation, PATCH semantics) but also
+  means there is no runtime signalling to lean on.
+
+request:
+  style: query-string GET
+  methods_used:
+  - GET
+  request_bodies: none
+  url_shape: https://{hostname}/{path}?{parameters}
+  hosts:
+  - host: api.debounce.io
+    purpose: single validation, reverse lookup, balance, usage
+  - host: bulk.debounce.io
+    purpose: bulk list upload and status
+  - host: disposable.debounce.io
+    purpose: free disposable detector
+  - host: logo.debounce.com
+    purpose: free company logo lookup
+  common_parameters:
+  - name: api
+    meaning: API key
+  - name: email
+    meaning: email address to validate or look up
+  - name: list_id
+    meaning: reference to a bulk validation job
+  docs: https://developers.debounce.com/api-concepts/request
+  note: >-
+    The request docs page names `task_id` and `file` as common parameters, but no
+    published OpenAPI operation declares either — the bulk spec uses `list_id`.
+    Recorded as a docs/spec drift, not resolved.
+
+authentication:
+  style: api-key-in-query
+  parameter: api
+  detail: authentication/debounce-authentication.yml
+  docs: https://developers.debounce.com/api-concepts/authentication
+
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  note: >-
+    DeBounce documents NO idempotency key and none of the five published OpenAPI
+    documents declares an Idempotency-Key parameter. Every published operation is
+    an HTTP GET and is therefore idempotent by method semantics — a repeated
+    validation call re-runs and re-charges credits, but creates no duplicate
+    resource. The one operation with a side effect that matters, uploadBulkList,
+    is also a GET, so a retried upload can create a second bulk job and consume
+    credits twice with no key to deduplicate it. This is a real gap, and no
+    Idempotency pointer is emitted for this provider.
+
+pagination:
+  supported: false
+  style: null
+  note: >-
+    No published operation returns a collection that pages. getUsage takes a
+    start/end date window rather than a cursor, and bulk results are delivered as
+    a single downloadable CSV via download_link.
+
+response_envelope:
+  shape: >-
+    {"debounce": {...}, "success": "1"} on success; {"debounce": {"error": "...",
+    "code": "0"}, "success": "0"} on failure.
+  success_flag:
+    field: success
+    type: string
+    values:
+      '1': request succeeded
+      '0': request failed
+    note: >-
+      The published schemas are inconsistent about this field's type. Error and
+      UsageResult/BulkStatusResult declare `success` as a string enum ["0","1"];
+      ValidationResult, ReverseResult and BalanceResult declare it as an integer
+      enum [0,1]. The in-spec examples and the live 401 body both return the
+      STRING form. Consumers should parse loosely.
+  error_object: debounce.error (human-readable) + debounce.code
+  content_type: application/json
+  docs: https://developers.debounce.com/api-concepts/responses
+
+field_expansion:
+  supported: true
+  style: boolean opt-in flags on the validation call
+  fields:
+  - flag: append
+    adds: full name + avatar
+    cost: +20 credits per successful call
+  - flag: photo
+    adds: profile photo URL
+    cost: +1 credit per successful call
+  - flag: gsuite
+    adds: G Suite accept-all detection
+    cost: included
+  note: >-
+    Expansion carries a metered price and a throughput penalty — enabling append
+    drops the concurrency ceiling from 5 to 2.
+
+metadata:
+  supported: false
+  note: No customer-defined metadata field on any object.
+
+request_tracing:
+  request_id_header: none
+  note: >-
+    No request-id or correlation header is documented, and a live probe of
+    api.debounce.io returned only Cloudflare's cf-ray. There is no
+    provider-issued identifier to quote in a support ticket.
+
+versioning:
+  scheme: uri-path
+  current: v1
+  detail: lifecycle/debounce-lifecycle.yml
+  note: >-
+    /v1/ appears on api.debounce.io and bulk.debounce.io. disposable.debounce.io
+    and logo.debounce.com are unversioned.
+
+rate_limit_signaling:
+  headers: none
+  detail: rate-limits/debounce-rate-limits.yml
+  note: >-
+    DeBounce returns NO RateLimit-*, X-RateLimit-* or Retry-After headers. A
+    live unauthenticated probe of https://api.debounce.io/v1/ on 2026-08-14
+    returned only date, content-type, server, access-control-allow-origin,
+    cf-cache-status, report-to, vary, nel, cf-ray and alt-svc. The limits are
+    concurrency-based and discoverable only by hitting a 429, which is the
+    single largest runtime-semantics gap in this API.
+  exhaustion_status: 429
+
+errors:
+  detail: errors/debounce-problem-types.yml
+  format: vendor-envelope
+  rfc9457: false
+
+cross_references:
+  authentication: authentication/debounce-authentication.yml
+  errors: errors/debounce-problem-types.yml
+  lifecycle: lifecycle/debounce-lifecycle.yml
+  rate_limits: rate-limits/debounce-rate-limits.yml
+  data_model: data-model/debounce-data-model.yml

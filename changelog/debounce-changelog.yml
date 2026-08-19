@@ -1,0 +1,77 @@
+generated: '2026-08-14'
+method: probed
+source: https://feedback.debounce.com/changelog
+description: >-
+  DeBounce publishes a product changelog and a public roadmap on a hosted
+  feedback portal. Both pages return HTTP 200 but render entirely client-side, so
+  no dated entries could be read without executing JavaScript. The change record
+  that IS machine-readable is the status page's incident feed, which is a
+  different thing (availability events, not releases) and is captured in
+  lifecycle/. This artifact records the surface honestly rather than inventing a
+  release history.
+
+changelog:
+  url: https://feedback.debounce.com/changelog
+  platform: Supahub
+  machine_readable: false
+  rendering: client-side (Next.js) — the served HTML body contains only the word "Changelog"
+  feed: null
+  scheme: undated-from-the-server
+  current_version: null
+  entries: []
+  entry_count: 0
+  x-evidence:
+  - url: https://feedback.debounce.com/changelog
+    fetched: '2026-08-14'
+    http_status: 200
+    bytes: 6336
+    note: >-
+      Stripped of markup the response yields a single word, "Changelog". Entries
+      are fetched by client JavaScript.
+  - url: https://feedback.debounce.com/changelog/rss
+    fetched: '2026-08-14'
+    http_status: 200
+    note: >-
+      Returns the same JS shell, not an RSS document — a soft 200, not a feed.
+  - url: https://feedback.debounce.com/rss
+    fetched: '2026-08-14'
+    http_status: 404
+  - url: https://developers.debounce.com/changelog
+    fetched: '2026-08-14'
+    http_status: 404
+  - url: https://debounce.com/changelog/
+    fetched: '2026-08-14'
+    http_status: 404
+
+roadmap:
+  url: https://feedback.debounce.com/roadmap
+  platform: Supahub
+  machine_readable: false
+  x-evidence:
+    url: https://feedback.debounce.com/roadmap
+    fetched: '2026-08-14'
+    http_status: 200
+
+adjacent_change_records:
+- kind: incident-feed
+  url: https://status.debounce.com/feed.rss
+  format: RSS 2.0
+  machine_readable: true
+  covers: availability incidents, not API releases
+  detail: lifecycle/debounce-lifecycle.yml
+- kind: package-release
+  source: packages/debounce-packages.yml
+  detail: >-
+    The WordPress plugin's registry metadata is the only dated, machine-readable
+    first-party release signal in this profile — version 5.8.9 published
+    2026-08-13.
+
+findings:
+- >-
+  There is no API changelog. The changelog that exists is a product changelog on
+  a marketing feedback portal, and it does not distinguish breaking API changes
+  from feature announcements.
+- >-
+  Because the portal renders client-side and serves no feed, a consumer cannot
+  subscribe programmatically to DeBounce product changes. The provider could fix
+  this by enabling a feed on the Supahub portal.

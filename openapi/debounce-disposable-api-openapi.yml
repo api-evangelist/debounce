@@ -1,0 +1,63 @@
+openapi: 3.1.0
+info:
+  title: DeBounce Disposable Email Detector API
+  description: DeBounce's free disposable email detector. A single unauthenticated GET against disposable.debounce.io
+    checks an email address or domain against a continuously updated list of disposable and temporary
+    email providers.
+  license:
+    name: MIT
+  version: 1.0.0
+  contact:
+    name: DeBounce Support
+    url: https://developers.debounce.com/
+  termsOfService: https://debounce.com/terms-of-use/
+servers:
+- url: https://disposable.debounce.io
+security: []
+tags:
+- name: Disposable
+  description: Free disposable / temporary email domain detection
+paths:
+  /:
+    get:
+      summary: Check disposable email
+      description: Free API as easy as hitting a URL. Check an email address against a real-time, up-to-date
+        list of disposable domains.
+      operationId: checkDisposableEmail
+      security: []
+      parameters:
+      - name: email
+        in: query
+        description: The email address or domain to check
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Disposable email check completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisposableResult'
+              examples:
+                example:
+                  value:
+                    disposable: 'true'
+      tags:
+      - Disposable
+components:
+  schemas:
+    DisposableResult:
+      type: object
+      required:
+      - disposable
+      properties:
+        disposable:
+          description: Whether the email/domain is disposable
+          type: string
+x-apievangelist:
+  method: searched
+  generated: '2026-08-14'
+  source: https://developers.debounce.com/api-reference/openapi-disposable.json
+  note: Refined from the OpenAPI 3.1.0 document DeBounce publishes at the source URL above; verbatim copy
+    in openapi/_original/. Operations retagged by product area, no content invented.

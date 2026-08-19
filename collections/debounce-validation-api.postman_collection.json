@@ -1,0 +1,360 @@
+{
+  "item": [
+    {
+      "id": "bd022b1b-5b76-4723-be75-d4e4e1998922",
+      "name": "Validation",
+      "description": {
+        "content": "Real-time single email address validation",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c0d2a092-599f-4d03-8e97-7c88189f1601",
+          "name": "Validate Single Email Address",
+          "request": {
+            "name": "Validate Single Email Address",
+            "description": {
+              "content": "Validates a single email address and returns detailed validation results",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api",
+                  "value": "<string>",
+                  "description": "(Required) Your DeBounce API key"
+                },
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<email>",
+                  "description": "(Required) The email address you want to validate"
+                },
+                {
+                  "disabled": false,
+                  "key": "photo",
+                  "value": "<boolean>",
+                  "description": "If set to true, returns profile photo (extra credits apply)"
+                },
+                {
+                  "disabled": false,
+                  "key": "append",
+                  "value": "<boolean>",
+                  "description": "If set to true, enriches with full name and avatar (extra credits apply)"
+                },
+                {
+                  "disabled": false,
+                  "key": "gsuite",
+                  "value": "<boolean>",
+                  "description": "If set to true, detects G Suite accept-all emails"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2646cac6-8db9-4cc8-86f0-774c239e2b51",
+              "name": "Validation successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api",
+                      "value": "API_KEY"
+                    },
+                    {
+                      "key": "email",
+                      "value": "<email>"
+                    },
+                    {
+                      "key": "photo",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "append",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "gsuite",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "api",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"debounce\": {\n    \"email\": \"someemail@gmail.com\",\n    \"code\": \"5\",\n    \"role\": \"false\",\n    \"free_email\": \"true\",\n    \"result\": \"Safe to Send\",\n    \"reason\": \"Deliverable\",\n    \"send_transactional\": \"1\",\n    \"did_you_mean\": \"\"\n  },\n  \"success\": \"1\",\n  \"balance\": \"329918\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c345838-45ae-4d10-8b79-0eecdbc309bc",
+              "name": "Invalid API Key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api",
+                      "value": "API_KEY"
+                    },
+                    {
+                      "key": "email",
+                      "value": "<email>"
+                    },
+                    {
+                      "key": "photo",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "append",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "gsuite",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "api",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"debounce\": {\n    \"error\": \"Wrong API\",\n    \"code\": \"0\"\n  },\n  \"success\": \"0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c7004fd-e8e2-4a83-9c11-26265b17a2fb",
+              "name": "Credits Low",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api",
+                      "value": "API_KEY"
+                    },
+                    {
+                      "key": "email",
+                      "value": "<email>"
+                    },
+                    {
+                      "key": "photo",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "append",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "gsuite",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "api",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"debounce\": {\n    \"error\": \"Credits Low\",\n    \"code\": \"0\"\n  },\n  \"success\": \"0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e644b57-3d97-44dc-98f0-2072db3a7c87",
+              "name": "Too Many Requests / Daily Limit Reached",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api",
+                      "value": "API_KEY"
+                    },
+                    {
+                      "key": "email",
+                      "value": "<email>"
+                    },
+                    {
+                      "key": "photo",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "append",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "gsuite",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "api",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"debounce\": {\n    \"error\": \"Maximum concurrent calls reached\",\n    \"code\": \"0\"\n  },\n  \"success\": \"0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.debounce.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0848ae3c-6a05-40aa-a302-102514770af8",
+    "name": "DeBounce Email Validation API — Single Validation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "DeBounce is an email validation and verification REST API. Requests are authenticated with an API key passed as the \"api\" query parameter; every response carries a \"success\" flag and a \"debounce\" object holding the result or the error. This document covers real-time single email address validation, including disposable, role-based, free-provider and typo detection, with optional photo/append enrichment flags.\n\nContact Support:\n Name: DeBounce Support",
+      "type": "text/plain"
+    }
+  }
+}

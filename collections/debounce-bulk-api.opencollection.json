@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "DeBounce Bulk Email Validation API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api",
+      "value": "{{api}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bulk",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Perform bulk email validation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://bulk.debounce.io/v1/upload/",
+            "params": [
+              {
+                "name": "api",
+                "value": "",
+                "type": "query",
+                "description": "Your DeBounce API key"
+              },
+              {
+                "name": "url",
+                "value": "",
+                "type": "query",
+                "description": "URL of your .csv or .txt email list, starting with https and uploaded in your server."
+              }
+            ]
+          },
+          "docs": "Perform a bulk email validation request via API."
+        },
+        {
+          "info": {
+            "name": "Check bulk validation status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://bulk.debounce.io/v1/status/",
+            "params": [
+              {
+                "name": "list_id",
+                "value": "",
+                "type": "query",
+                "description": "The list ID returned from the upload request"
+              }
+            ]
+          },
+          "docs": "Check bulk validation status"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

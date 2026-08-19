@@ -1,169 +1,180 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: DeBounce Email Validation Account API
-  description: 'DeBounce is an email validation and verification REST API that helps developers ensure the deliverability and quality of email addresses at scale. The API supports real-time single email validation, asynchronous bulk list processing, and data enrichment via reverse email lookup. It detects disposable addresses, role-based emails, catch-all domains, syntax errors, and performs MX record and SMTP-level mailbox verification.
-
-    '
+  title: DeBounce Email Validation API — Account
+  description: 'DeBounce is an email validation and verification REST API. Requests are authenticated
+    with an API key passed as the "api" query parameter; every response carries a "success" flag and a
+    "debounce" object holding the result or the error. This document covers account operations: the remaining
+    credit balance and the dated API usage history.'
+  license:
+    name: MIT
   version: 1.0.0
   contact:
     name: DeBounce Support
-    url: https://debounce.com/
-  license:
-    name: MIT
-  termsOfService: https://debounce.com/terms/
+    url: https://developers.debounce.com/
+  termsOfService: https://debounce.com/terms-of-use/
 servers:
 - url: https://api.debounce.io
-  description: DeBounce production API
 security:
 - ApiKeyQuery: []
 tags:
 - name: Account
-  description: Account balance and usage history
+  description: Account credit balance and API usage history
 paths:
   /v1/balance/:
     get:
+      summary: Get account balance
+      operationId: getBalance
       tags:
       - Account
-      summary: Get Account Balance
-      description: 'Returns the current credit balance remaining on your DeBounce account. Credits never expire and are consumed on a pay-as-you-go basis.
-
-        '
-      operationId: getAccountBalance
       parameters:
       - name: api
         in: query
+        description: Your DeBounce API key
         required: true
         schema:
-          type: string
-        description: Your DeBounce API key
+          type: apiKey
+        example: YOUR API KEY
       responses:
         '200':
-          description: Account balance retrieved
+          description: Account balance retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BalanceResponse'
-              example:
-                success: '1'
-                balance: '329918'
+                $ref: '#/components/schemas/BalanceResult'
+              examples:
+                success:
+                  summary: Successful balance retrieval
+                  value:
+                    balance: 1986406
         '401':
-          description: Invalid API key
+          description: Invalid API Key
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/Error'
+              example:
+                debounce:
+                  error: Wrong API
+                  code: '0'
+                success: '0'
   /v1/usage/:
     get:
-      tags:
-      - Account
-      summary: Get API Usage History
-      description: 'Returns daily API usage statistics and credit consumption history for your DeBounce account. Useful for monitoring usage patterns and tracking costs.
-
-        '
-      operationId: getApiUsage
+      summary: Get usage statistics
+      operationId: getUsage
       parameters:
       - name: api
         in: query
+        description: Your DeBounce API key
         required: true
         schema:
           type: string
-        description: Your DeBounce API key
+        example: YOUR API KEY
       - name: start
         in: query
-        required: false
+        description: Start date. Must be after 20-08-14 (YY-MM-DD)
+        required: true
         schema:
           type: string
-          format: date
-        description: Start date for usage report (YYYY-MM-DD)
+          pattern: ^\d{2}-\d{2}-\d{2}$
+          example: 24-01-01
       - name: end
         in: query
-        required: false
+        description: End date. Equal or less than today's date (YY-MM-DD)
+        required: true
         schema:
           type: string
-          format: date
-        description: End date for usage report (YYYY-MM-DD)
+          pattern: ^\d{2}-\d{2}-\d{2}$
+          example: 24-12-31
       responses:
         '200':
-          description: Usage history retrieved
+          description: Usage history retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsageResponse'
-              example:
-                success: '1'
-                usage:
-                - date: '2026-06-01'
-                  calls: 5420
-                  credits_used: 5420
-                - date: '2026-06-02'
-                  calls: 3210
-                  credits_used: 3210
-        '401':
-          description: Invalid API key
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/UsageResult'
+              examples:
+                example:
+                  value:
+                    debounce:
+                      api: YOUR API KEY
+                      start: 24-01-01
+                      end: 24-12-31
+                      calls: '100'
+                    success: '1'
+      tags:
+      - Account
 components:
   schemas:
-    UsageResponse:
+    BalanceResult:
       type: object
+      required:
+      - success
       properties:
-        success:
-          type: string
-          enum:
-          - '0'
-          - '1'
-        usage:
-          type: array
-          items:
-            $ref: '#/components/schemas/UsageDay'
-    UsageDay:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date
-          description: Date for this usage record (YYYY-MM-DD)
-        calls:
-          type: integer
-          description: Number of API calls made on this date
-        credits_used:
-          type: integer
-          description: Number of credits consumed on this date
-    BalanceResponse:
-      type: object
-      properties:
-        success:
-          type: string
-          enum:
-          - '0'
-          - '1'
         balance:
-          type: string
-          description: Current remaining credit balance
-    ErrorResponse:
+          description: Current account balance
+          type: integer
+          minimum: 0
+        success:
+          description: Whether the request was successful
+          type: integer
+          enum:
+          - 0
+          - 1
+    Error:
       type: object
+      required:
+      - error
       properties:
+        error:
+          type: string
+        message:
+          type: string
         debounce:
           type: object
           properties:
             error:
               type: string
-              description: Human-readable error message
             code:
               type: string
-              description: Error code
         success:
           type: string
           enum:
           - '0'
-          description: Always '0' for error responses
+    UsageResult:
+      type: object
+      required:
+      - success
+      properties:
+        debounce:
+          type: object
+          properties:
+            api:
+              description: API key identifier
+              type: string
+            start:
+              description: Start date
+              type: string
+            end:
+              description: End date
+              type: string
+            calls:
+              description: Number of API calls made
+              type: string
+        success:
+          description: Whether the request was successful
+          type: string
+          enum:
+          - '0'
+          - '1'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
       in: query
       name: api
-      description: 'DeBounce API key passed as the ''api'' query parameter. Obtain your API key from the DeBounce account dashboard at https://app.debounce.io/.
-
-        '
+      description: API key for authentication
+x-apievangelist:
+  method: searched
+  generated: '2026-08-14'
+  source: https://developers.debounce.com/api-reference/openapi-validation.json
+  note: Refined from the OpenAPI 3.1.0 document DeBounce publishes at the source URL above; verbatim copy
+    in openapi/_original/. Operations retagged by product area, no content invented.

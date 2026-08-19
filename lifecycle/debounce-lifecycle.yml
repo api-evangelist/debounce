@@ -1,0 +1,141 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://status.debounce.com/, https://status.debounce.com/feed.rss,
+  https://feedback.debounce.com/changelog, https://feedback.debounce.com/roadmap,
+  https://debounce.com/deliverability-guarantee/, and the OpenAPI documents in
+  openapi/
+description: >-
+  DeBounce runs a real, per-component status page with a machine-readable
+  incident feed, a public changelog and a public roadmap. What it does NOT
+  publish is any API lifecycle policy: there is no versioning policy page, no
+  deprecation policy, no Sunset/Deprecation header support, and no uptime SLA.
+  The one commitment it does make is about validation ACCURACY, not availability.
+
+versioning:
+  scheme: uri-path
+  current: v1
+  policy_url: null
+  hosts:
+  - host: api.debounce.io
+    versioned: true
+    prefix: /v1/
+  - host: bulk.debounce.io
+    versioned: true
+    prefix: /v1/
+  - host: disposable.debounce.io
+    versioned: false
+  - host: logo.debounce.com
+    versioned: false
+  spec_versions:
+  - file: openapi/debounce-validation-api-openapi.yml
+    info_version: 1.0.0
+  - file: openapi/debounce-bulk-api-openapi.yml
+    info_version: 1.0.0
+  - file: openapi/debounce-disposable-api-openapi.yml
+    info_version: 1.0.0
+  note: >-
+    /v1/ has been the only published version since the API was documented. No
+    v2 exists and no version-negotiation header is documented.
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy, no notice period, and no RFC 8594 Sunset/Deprecation
+    header support could be found on the developer portal, the help centre or the
+    marketing site. No Deprecation pointer is emitted for this provider.
+
+deprecated_operations: []
+
+sla:
+  uptime_target: null
+  uptime_sla_published: false
+  accuracy_guarantee:
+    published: true
+    url: https://debounce.com/deliverability-guarantee/
+    headline: 97.5% or better deliverability rate guarantee
+    detail:
+    - 95%+ accuracy on Microsoft accounts (Office 365, Hotmail, MSN, Outlook, Live)
+    - 98%+ accuracy on everything else
+    exclusions:
+    - Yahoo! and AOL addresses under the deactivation process
+    - GMX and WEB.de domains, where bounce rates may exceed 10%
+    - free.fr, orange.fr, sfr.fr, comcast.net, att.net (high Unknown rate)
+    - Purchased (non-opt-in) lists
+    - Bounces from sender reputation, blacklisting, throttling or spam content
+    eligibility:
+    - Batch of at least 1,000 addresses verified with DeBounce
+    - Sent within a 48-hour period
+    - Addresses classified Deliverable / Safe to Send
+    note: >-
+      This is a results-accuracy commitment, not an availability SLA. There is no
+      published uptime target and no service-credit schedule.
+
+status_page:
+  url: https://status.debounce.com/
+  platform: Better Stack
+  machine_readable_feed: https://status.debounce.com/feed.rss
+  feed_format: RSS 2.0
+  server_rendered: true
+  components:
+  - name: Core
+    label: DeBounce
+    uptime_30d: '100%'
+  - name: Web App
+    label: DeBounce Web Application Interface
+    uptime_30d: '100%'
+  - name: Website
+    label: Main Platform Website
+    uptime_30d: '99.932%'
+  - name: Single Validation API
+    label: DeBounce API Endpoint
+    uptime_30d: '100%'
+  - name: Single Validation API / VIP
+    label: DeBounce API-VIP Endpoint
+    uptime_30d: '100%'
+  - name: Bulk Validation API
+    label: Bulk API Endpoint
+    uptime_30d: '100%'
+  - name: Disposable Detector API
+    label: DeBounce Disposable Detector Endpoint
+    uptime_30d: '100%'
+  - name: Logo API
+    uptime_30d: '100%'
+  recent_incidents:
+  - title: Website is down
+    url: https://status.debounce.com/incident/980409
+    started: '2026-07-27T12:17:54Z'
+    recovered: '2026-07-27T21:17:49Z'
+    scope: marketing website only — no API component affected
+  x-evidence:
+    url: https://status.debounce.com/
+    fetched: '2026-08-14'
+    http_status: 200
+  note: >-
+    Every one of the five API surfaces in this profile is individually monitored,
+    including the two free ones. The component list independently confirms Logo
+    API and Disposable Detector API are first-class DeBounce products.
+
+changelog:
+  url: https://feedback.debounce.com/changelog
+  detail: changelog/debounce-changelog.yml
+
+roadmap:
+  url: https://feedback.debounce.com/roadmap
+  platform: Supahub
+  x-evidence:
+    url: https://feedback.debounce.com/roadmap
+    fetched: '2026-08-14'
+    http_status: 200
+
+findings:
+- >-
+  Operational transparency is strong on the runtime side (per-component status,
+  RSS incident feed, public roadmap and changelog) and absent on the contract
+  side (no versioning policy, no deprecation policy, no Sunset header).
+- >-
+  A consumer has no documented notice window if /v1/ is ever retired.

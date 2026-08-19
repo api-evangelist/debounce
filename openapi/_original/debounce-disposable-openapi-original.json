@@ -1,0 +1,73 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DeBounce Disposable Email Detector API",
+    "description": "Free disposable email and domain checker.",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://disposable.debounce.io"
+    }
+  ],
+  "security": [],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Check disposable email",
+        "description": "Free API as easy as hitting a URL. Check an email address against a real-time, up-to-date list of disposable domains.",
+        "operationId": "checkDisposableEmail",
+        "security": [],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "The email address or domain to check",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Disposable email check completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DisposableResult"
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "disposable": "true"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DisposableResult": {
+        "type": "object",
+        "required": [
+          "disposable"
+        ],
+        "properties": {
+          "disposable": {
+            "description": "Whether the email/domain is disposable",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
