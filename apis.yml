@@ -55,129 +55,13 @@ tags:
 - Reverse Email Lookup
 - Logo API
 apis:
-- aid: debounce:debounce-validation-api
-  name: DeBounce Validation API
-  description: Real-time single email address validation. Returns a deliverability result (Safe to Send,
-    Risky, Invalid, Unknown), a result code, role-account and free-provider flags, a did-you-mean typo
-    suggestion, and the remaining credit balance. Optional photo, append and gsuite flags enable enrichment
-    and G Suite accept-all detection at extra credit cost.
-  humanURL: https://developers.debounce.com/api-reference/endpoint/single-validation
-  baseURL: https://api.debounce.io
-  tags:
-  - Validation
-  properties:
-  - type: OpenAPI
-    url: openapi/debounce-validation-api-openapi.yml
-  - type: Overlay
-    url: overlays/debounce-validation-api-overlay.yaml
-  - type: Documentation
-    url: https://developers.debounce.com/
-  - type: APIReference
-    url: https://developers.debounce.com/api-reference/endpoint/single-validation
-  - type: RateLimits
-    url: https://developers.debounce.com/api-concepts/rate-limiting
-  - type: JSONSchema
-    url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
-  - type: Examples
-    url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
-- aid: debounce:debounce-bulk-api
-  name: DeBounce Bulk API
-  description: Asynchronous bulk email list validation on bulk.debounce.io. Submit the URL of a hosted
-    CSV or TXT list for processing, receive a list_id, then poll the status endpoint for the processing
-    percentage and the completed download link. One active bulk job is permitted per account; additional
-    jobs queue.
-  humanURL: https://developers.debounce.com/api-reference/endpoint/bulk/upload
-  baseURL: https://bulk.debounce.io
-  tags:
-  - Bulk
-  properties:
-  - type: OpenAPI
-    url: openapi/debounce-bulk-api-openapi.yml
-  - type: Overlay
-    url: overlays/debounce-bulk-api-overlay.yaml
-  - type: Documentation
-    url: https://developers.debounce.com/
-  - type: APIReference
-    url: https://developers.debounce.com/api-reference/endpoint/bulk/upload
-  - type: RateLimits
-    url: https://developers.debounce.com/api-concepts/rate-limiting
-  - type: JSONSchema
-    url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
-  - type: Examples
-    url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
-- aid: debounce:debounce-data-api
-  name: DeBounce Data API
-  description: Reverse email lookup / data append. Returns additional contact data associated with an
-    email address. The same enrichment engine is reachable from the single-validation endpoint via the
-    append and photo flags; append costs 20 extra credits per successful call and photo costs 1.
-  humanURL: https://developers.debounce.com/api-reference/endpoint/enrichment
-  baseURL: https://api.debounce.io
-  tags:
-  - Data
-  properties:
-  - type: OpenAPI
-    url: openapi/debounce-data-api-openapi.yml
-  - type: Overlay
-    url: overlays/debounce-data-api-overlay.yaml
-  - type: Documentation
-    url: https://developers.debounce.com/
-  - type: APIReference
-    url: https://developers.debounce.com/api-reference/endpoint/enrichment
-  - type: RateLimits
-    url: https://developers.debounce.com/api-concepts/rate-limiting
-  - type: JSONSchema
-    url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
-  - type: Examples
-    url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/examples/debounce-single-validation-example.json
-- aid: debounce:debounce-account-api
-  name: DeBounce Account API
-  description: Account operations. Returns the remaining credit balance on the account and a dated API
-    usage history for a requested start/end window, so consumers can monitor consumption and top up before
-    hitting the 402 Payment Required response that an exhausted balance produces.
-  humanURL: https://developers.debounce.com/api-reference/endpoint/miscellaneous/balance
-  baseURL: https://api.debounce.io
-  tags:
-  - Account
-  properties:
-  - type: OpenAPI
-    url: openapi/debounce-account-api-openapi.yml
-  - type: Overlay
-    url: overlays/debounce-account-api-overlay.yaml
-  - type: Documentation
-    url: https://developers.debounce.com/
-  - type: APIReference
-    url: https://developers.debounce.com/api-reference/endpoint/miscellaneous/balance
-  - type: RateLimits
-    url: https://developers.debounce.com/api-concepts/rate-limiting
-  - type: JSONSchema
-    url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/json-schema/debounce-validation-result-schema.json
-- aid: debounce:debounce-disposable-api
-  name: DeBounce Disposable Detector API
-  description: Free, unauthenticated disposable email detector on disposable.debounce.io. A single GET
-    with an email address or domain returns whether it belongs to a known disposable or temporary email
-    provider, checked against a continuously updated domain list. No API key and no credits are required.
-  humanURL: https://developers.debounce.com/api-reference/endpoint/free/disposible-detector
-  baseURL: https://disposable.debounce.io
-  tags:
-  - Disposable
-  - Free
-  properties:
-  - type: OpenAPI
-    url: openapi/debounce-disposable-api-openapi.yml
-  - type: Overlay
-    url: overlays/debounce-disposable-api-overlay.yaml
-  - type: Documentation
-    url: https://developers.debounce.com/
-  - type: APIReference
-    url: https://developers.debounce.com/api-reference/endpoint/free/disposible-detector
-  - type: SignUp
-    url: https://debounce.com/free-disposable-check-api/
 - aid: debounce:debounce-logo-api
   name: DeBounce Logo API
-  description: Free company logo lookup service positioned as a drop-in replacement for the deprecated
-    Clearbit Logo API. A GET against logo.debounce.com with a company domain returns a high-quality PNG
-    logo served from DeBounce's CDN, falling back to a generated monogram when no logo is available. No
-    API key, no credits and no attribution are required.
+  description: >-
+    Free company logo lookup service positioned as a drop-in replacement for the deprecated Clearbit Logo
+    API. A GET against logo.debounce.com with a company domain returns a high-quality PNG logo served
+    from DeBounce's CDN, falling back to a generated monogram when no logo is available. No API key, no
+    credits and no attribution are required.
   humanURL: https://developers.debounce.com/api-reference/endpoint/free/logo-api
   baseURL: https://logo.debounce.com
   tags:
@@ -202,8 +86,9 @@ apis:
     url: openapi/debounce-account-management-api-openapi.yml
 - aid: debounce:debounce-debounce-disposable-email-detector-api-api
   name: DeBounce Disposable Email Detector API
-  description: The DeBounce Disposable Email Detector API API from DeBounce — 1 operation(s) for debounce
-    disposable email detector api.
+  description: >-
+    The DeBounce Disposable Email Detector API API from DeBounce — 1 operation(s) for debounce disposable
+    email detector api.
   humanURL: https://developers.debounce.com/api-reference/endpoint/single-validation
   baseURL: https://api.debounce.io
   tags:
@@ -213,8 +98,9 @@ apis:
     url: openapi/debounce-debounce-disposable-email-detector-api-api-openapi.yml
 - aid: debounce:debounce-debounce-email-validation-api-api
   name: DeBounce Email Validation API
-  description: The DeBounce Email Validation API API from DeBounce — 1 operation(s) for debounce email
-    validation api.
+  description: >-
+    The DeBounce Email Validation API API from DeBounce — 1 operation(s) for debounce email validation
+    api.
   humanURL: https://developers.debounce.com/api-reference/endpoint/single-validation
   baseURL: https://api.debounce.io
   tags:
@@ -263,6 +149,16 @@ apis:
   - type: OpenAPI
     url: openapi/debounce-usage-api-openapi.yml
 common:
+- type: Overlay
+  url: overlays/debounce-validation-api-overlay.yaml
+- type: Overlay
+  url: overlays/debounce-bulk-api-overlay.yaml
+- type: Overlay
+  url: overlays/debounce-data-api-overlay.yaml
+- type: Overlay
+  url: overlays/debounce-account-api-overlay.yaml
+- type: Overlay
+  url: overlays/debounce-disposable-api-overlay.yaml
 - type: Website
   url: https://debounce.com/
 - type: DeveloperPortal
