@@ -1,25 +1,16 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: DeBounce Email Validation API — Single Validation
-  description: DeBounce is an email validation and verification REST API. Requests are authenticated with
-    an API key passed as the "api" query parameter; every response carries a "success" flag and a "debounce"
-    object holding the result or the error. This document covers real-time single email address validation,
-    including disposable, role-based, free-provider and typo detection, with optional photo/append enrichment
-    flags.
+  title: DeBounce Email Validation API
+  description: Single email validation, reverse lookup, balance, and usage endpoints.
   license:
     name: MIT
   version: 1.0.0
-  contact:
-    name: DeBounce Support
-    url: https://developers.debounce.com/
-  termsOfService: https://debounce.com/terms-of-use/
 servers:
 - url: https://api.debounce.io
 security:
 - ApiKeyQuery: []
 tags:
-- name: Validation
-  description: Real-time single email address validation
+- name: DeBounce Email Validation API
 paths:
   /v1/:
     get:
@@ -123,29 +114,9 @@ paths:
                       error: Authentication Failed - The maximum number of calls per day reached.
                     success: '0'
       tags:
-      - Validation
+      - DeBounce Email Validation API
 components:
   schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        debounce:
-          type: object
-          properties:
-            error:
-              type: string
-            code:
-              type: string
-        success:
-          type: string
-          enum:
-          - '0'
     ValidationResult:
       type: object
       required:
@@ -159,13 +130,11 @@ components:
           format: email
           example: test@example.com
         code:
-          description: DeBounce validation response code. To understand DeBounce results and codes, visit
-            https://help.debounce.com/understanding-results/result-codes/.
+          description: DeBounce validation response code. To understand DeBounce results and codes, visit https://help.debounce.com/understanding-results/result-codes/.
           type: integer
           example: 1
         role:
-          description: Is the email role-based or not. Role emails such as "sales@", "webmaster@" etc.,
-            are not suitable for sending marketing emails to.
+          description: Is the email role-based or not. Role emails such as "sales@", "webmaster@" etc., are not suitable for sending marketing emails to.
           type: boolean
           example: false
         free_email:
@@ -173,8 +142,7 @@ components:
           type: boolean
           example: true
         result:
-          description: The final result of the validation process. This response will help to determine
-            whether you should send marketing emails to a recipient or not.
+          description: The final result of the validation process. This response will help to determine whether you should send marketing emails to a recipient or not.
           type: string
           enum:
           - Invalid
@@ -187,8 +155,7 @@ components:
           type: string
           example: Deliverable
         send_transactional:
-          description: 'Is it suggested that you send transactional emails to the recipient or not (0:
-            no, 1: yes).'
+          description: 'Is it suggested that you send transactional emails to the recipient or not (0: no, 1: yes).'
           type: integer
           enum:
           - 0
@@ -209,15 +176,29 @@ components:
           description: Remaining balance on your account after the current API call.
           type: integer
           example: 4921
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        debounce:
+          type: object
+          properties:
+            error:
+              type: string
+            code:
+              type: string
+        success:
+          type: string
+          enum:
+          - '0'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
       in: query
       name: api
       description: API key for authentication
-x-apievangelist:
-  method: searched
-  generated: '2026-08-14'
-  source: https://developers.debounce.com/api-reference/openapi-validation.json
-  note: Refined from the OpenAPI 3.1.0 document DeBounce publishes at the source URL above; verbatim copy
-    in openapi/_original/. Operations retagged by product area, no content invented.

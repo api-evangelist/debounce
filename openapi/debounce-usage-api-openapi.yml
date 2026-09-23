@@ -1,0 +1,94 @@
+openapi: 3.2.0
+info:
+  title: DeBounce Email Validation Usage API
+  description: Single email validation, reverse lookup, balance, and usage endpoints.
+  license:
+    name: MIT
+  version: 1.0.0
+servers:
+- url: https://api.debounce.io
+security:
+- ApiKeyQuery: []
+tags:
+- name: Usage
+paths:
+  /v1/usage/:
+    get:
+      summary: Get usage statistics
+      operationId: getUsage
+      parameters:
+      - name: api
+        in: query
+        description: Your DeBounce API key
+        required: true
+        schema:
+          type: string
+        example: YOUR API KEY
+      - name: start
+        in: query
+        description: Start date. Must be after 20-08-14 (YY-MM-DD)
+        required: true
+        schema:
+          type: string
+          pattern: ^\d{2}-\d{2}-\d{2}$
+          example: 24-01-01
+      - name: end
+        in: query
+        description: End date. Equal or less than today's date (YY-MM-DD)
+        required: true
+        schema:
+          type: string
+          pattern: ^\d{2}-\d{2}-\d{2}$
+          example: 24-12-31
+      responses:
+        '200':
+          description: Usage history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageResult'
+              examples:
+                example:
+                  value:
+                    debounce:
+                      api: YOUR API KEY
+                      start: 24-01-01
+                      end: 24-12-31
+                      calls: '100'
+                    success: '1'
+      tags:
+      - Usage
+components:
+  schemas:
+    UsageResult:
+      type: object
+      required:
+      - success
+      properties:
+        debounce:
+          type: object
+          properties:
+            api:
+              description: API key identifier
+              type: string
+            start:
+              description: Start date
+              type: string
+            end:
+              description: End date
+              type: string
+            calls:
+              description: Number of API calls made
+              type: string
+        success:
+          description: Whether the request was successful
+          type: string
+          enum:
+          - '0'
+          - '1'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api
+      description: API key for authentication

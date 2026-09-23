@@ -1,20 +1,49 @@
 {
   "provider": "debounce",
   "sources": [
-    "debounce-account-api-openapi.yml",
-    "debounce-bulk-api-openapi.yml",
-    "debounce-data-api-openapi.yml",
-    "debounce-validation-api-openapi.yml"
+    "_original/debounce-bulk-openapi-original.json",
+    "_original/debounce-disposable-openapi-original.json",
+    "_original/debounce-validation-openapi-original.json"
   ],
   "outputs": [
-    "debounce-account-api-openapi.yml",
-    "debounce-bulk-api-openapi.yml",
-    "debounce-data-api-openapi.yml",
-    "debounce-validation-api-openapi.yml"
+    "debounce-status-api-openapi.yml",
+    "debounce-upload-api-openapi.yml",
+    "debounce-debounce-disposable-email-detector-api-api-openapi.yml",
+    "debounce-account-management-api-openapi.yml",
+    "debounce-debounce-email-validation-api-api-openapi.yml",
+    "debounce-reverse-api-openapi.yml",
+    "debounce-usage-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "debounce-bulk-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "debounce-bulk-openapi-original.json: tagged paths GET /v1/upload/ -> Upload",
+    "debounce-bulk-openapi-original.json: tagged paths GET /v1/status/ -> Status",
+    "debounce-bulk-openapi-original.json: declared missing tag: Status",
+    "debounce-bulk-openapi-original.json: declared missing tag: Upload",
+    "debounce-disposable-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "debounce-disposable-openapi-original.json: tagged paths GET / -> DeBounce Disposable Email Detector API",
+    "debounce-disposable-openapi-original.json: declared missing tag: DeBounce Disposable Email Detector API",
+    "debounce-validation-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "debounce-validation-openapi-original.json: tagged paths GET /v1/ -> DeBounce Email Validation API",
+    "debounce-validation-openapi-original.json: tagged paths GET /v1/reverse/ -> Reverse",
+    "debounce-validation-openapi-original.json: tagged paths GET /v1/usage/ -> Usage",
+    "debounce-validation-openapi-original.json: declared missing tag: Account Management",
+    "debounce-validation-openapi-original.json: declared missing tag: DeBounce Email Validation API",
+    "debounce-validation-openapi-original.json: declared missing tag: Reverse",
+    "debounce-validation-openapi-original.json: declared missing tag: Usage",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "debounce-account-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "debounce-debounce-disposable-email-detector-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "debounce-debounce-email-validation-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "debounce-reverse-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "debounce-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "debounce-upload-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "debounce-usage-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

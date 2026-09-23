@@ -1,0 +1,94 @@
+openapi: 3.2.0
+info:
+  title: DeBounce Email Validation Account Management API
+  description: Single email validation, reverse lookup, balance, and usage endpoints.
+  license:
+    name: MIT
+  version: 1.0.0
+servers:
+- url: https://api.debounce.io
+security:
+- ApiKeyQuery: []
+tags:
+- name: Account Management
+paths:
+  /v1/balance/:
+    get:
+      summary: Get account balance
+      operationId: getBalance
+      tags:
+      - Account Management
+      parameters:
+      - name: api
+        in: query
+        description: Your DeBounce API key
+        required: true
+        schema:
+          type: apiKey
+        example: YOUR API KEY
+      responses:
+        '200':
+          description: Account balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResult'
+              examples:
+                success:
+                  summary: Successful balance retrieval
+                  value:
+                    balance: 1986406
+        '401':
+          description: Invalid API Key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                debounce:
+                  error: Wrong API
+                  code: '0'
+                success: '0'
+components:
+  schemas:
+    BalanceResult:
+      type: object
+      required:
+      - success
+      properties:
+        balance:
+          description: Current account balance
+          type: integer
+          minimum: 0
+        success:
+          description: Whether the request was successful
+          type: integer
+          enum:
+          - 0
+          - 1
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        debounce:
+          type: object
+          properties:
+            error:
+              type: string
+            code:
+              type: string
+        success:
+          type: string
+          enum:
+          - '0'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api
+      description: API key for authentication

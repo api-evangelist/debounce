@@ -1,28 +1,20 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: DeBounce Disposable Email Detector API
-  description: DeBounce's free disposable email detector. A single unauthenticated GET against disposable.debounce.io
-    checks an email address or domain against a continuously updated list of disposable and temporary
-    email providers.
+  description: Free disposable email and domain checker.
   license:
     name: MIT
   version: 1.0.0
-  contact:
-    name: DeBounce Support
-    url: https://developers.debounce.com/
-  termsOfService: https://debounce.com/terms-of-use/
 servers:
 - url: https://disposable.debounce.io
 security: []
 tags:
-- name: Disposable
-  description: Free disposable / temporary email domain detection
+- name: DeBounce Disposable Email Detector API
 paths:
   /:
     get:
       summary: Check disposable email
-      description: Free API as easy as hitting a URL. Check an email address against a real-time, up-to-date
-        list of disposable domains.
+      description: Free API as easy as hitting a URL. Check an email address against a real-time, up-to-date list of disposable domains.
       operationId: checkDisposableEmail
       security: []
       parameters:
@@ -44,7 +36,7 @@ paths:
                   value:
                     disposable: 'true'
       tags:
-      - Disposable
+      - DeBounce Disposable Email Detector API
 components:
   schemas:
     DisposableResult:
@@ -55,9 +47,3 @@ components:
         disposable:
           description: Whether the email/domain is disposable
           type: string
-x-apievangelist:
-  method: searched
-  generated: '2026-08-14'
-  source: https://developers.debounce.com/api-reference/openapi-disposable.json
-  note: Refined from the OpenAPI 3.1.0 document DeBounce publishes at the source URL above; verbatim copy
-    in openapi/_original/. Operations retagged by product area, no content invented.

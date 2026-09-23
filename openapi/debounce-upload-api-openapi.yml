@@ -1,25 +1,16 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: DeBounce Bulk Email Validation API
-  description: 'DeBounce is an email validation and verification REST API. Requests are authenticated
-    with an API key passed as the "api" query parameter; every response carries a "success" flag and a
-    "debounce" object holding the result or the error. This document covers asynchronous bulk list validation
-    on bulk.debounce.io: submitting a hosted CSV/TXT list URL for processing and polling the resulting
-    list_id for status and the completed download link.'
+  title: DeBounce Bulk Email Validation Upload API
+  description: Bulk email list upload and status checking endpoints.
   license:
     name: MIT
   version: 1.0.0
-  contact:
-    name: DeBounce Support
-    url: https://developers.debounce.com/
-  termsOfService: https://debounce.com/terms-of-use/
 servers:
 - url: https://bulk.debounce.io
 security:
 - ApiKeyQuery: []
 tags:
-- name: Bulk
-  description: Bulk email list upload and status polling
+- name: Upload
 paths:
   /v1/upload/:
     get:
@@ -59,8 +50,7 @@ paths:
                   summary: Maximum bulk verify requests reached
                   value:
                     debounce:
-                      error: You have reached the maximum number of API bulk verify requests. Please try
-                        after the existing request completes.
+                      error: You have reached the maximum number of API bulk verify requests. Please try after the existing request completes.
                     success: '0'
         '400':
           description: Bad request - Invalid URL or file format
@@ -104,86 +94,9 @@ paths:
                   error: Maximum concurrent calls reached
                 success: '0'
       tags:
-      - Bulk
-  /v1/status/:
-    get:
-      summary: Check bulk validation status
-      operationId: checkBulkStatus
-      parameters:
-      - name: list_id
-        in: query
-        description: The list ID returned from the upload request
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Status retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BulkStatusResult'
-              examples:
-                processing:
-                  summary: List is currently being processed
-                  value:
-                    debounce:
-                      list_id: '20664'
-                      status: processing
-                      percentage: 39
-                      download_link: ''
-                    success: '1'
-                completed:
-                  summary: Validation completed
-                  value:
-                    debounce:
-                      list_id: '20664'
-                      status: completed
-                      percentage: 100
-                      download_link: https://cdn.debounce.io/get/report/20664-5efwsdbsccsd.csv
-                    success: '1'
-                error:
-                  summary: Invalid list ID
-                  value:
-                    debounce:
-                      error: List ID is not valid.
-                    success: '0'
-      tags:
-      - Bulk
+      - Upload
 components:
   schemas:
-    BulkStatusResult:
-      type: object
-      required:
-      - success
-      properties:
-        debounce:
-          type: object
-          properties:
-            list_id:
-              description: Unique identifier for the list
-              type: string
-            status:
-              description: Current processing status
-              type: string
-              enum:
-              - processing
-              - completed
-            percentage:
-              description: Processing completion percentage
-              type: integer
-              minimum: 0
-              maximum: 100
-            download_link:
-              description: Download link for completed results
-              type: string
-              format: uri
-        success:
-          description: Whether the status request was successful
-          type: string
-          enum:
-          - '0'
-          - '1'
     BulkUploadResult:
       type: object
       required:
@@ -230,9 +143,3 @@ components:
       in: query
       name: api
       description: API key for authentication
-x-apievangelist:
-  method: searched
-  generated: '2026-08-14'
-  source: https://developers.debounce.com/api-reference/openapi-bulk.json
-  note: Refined from the OpenAPI 3.1.0 document DeBounce publishes at the source URL above; verbatim copy
-    in openapi/_original/. Operations retagged by product area, no content invented.

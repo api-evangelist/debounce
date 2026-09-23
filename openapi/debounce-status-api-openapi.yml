@@ -1,0 +1,99 @@
+openapi: 3.2.0
+info:
+  title: DeBounce Bulk Email Validation Status API
+  description: Bulk email list upload and status checking endpoints.
+  license:
+    name: MIT
+  version: 1.0.0
+servers:
+- url: https://bulk.debounce.io
+security:
+- ApiKeyQuery: []
+tags:
+- name: Status
+paths:
+  /v1/status/:
+    get:
+      summary: Check bulk validation status
+      operationId: checkBulkStatus
+      parameters:
+      - name: list_id
+        in: query
+        description: The list ID returned from the upload request
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkStatusResult'
+              examples:
+                processing:
+                  summary: List is currently being processed
+                  value:
+                    debounce:
+                      list_id: '20664'
+                      status: processing
+                      percentage: 39
+                      download_link: ''
+                    success: '1'
+                completed:
+                  summary: Validation completed
+                  value:
+                    debounce:
+                      list_id: '20664'
+                      status: completed
+                      percentage: 100
+                      download_link: https://cdn.debounce.io/get/report/20664-5efwsdbsccsd.csv
+                    success: '1'
+                error:
+                  summary: Invalid list ID
+                  value:
+                    debounce:
+                      error: List ID is not valid.
+                    success: '0'
+      tags:
+      - Status
+components:
+  schemas:
+    BulkStatusResult:
+      type: object
+      required:
+      - success
+      properties:
+        debounce:
+          type: object
+          properties:
+            list_id:
+              description: Unique identifier for the list
+              type: string
+            status:
+              description: Current processing status
+              type: string
+              enum:
+              - processing
+              - completed
+            percentage:
+              description: Processing completion percentage
+              type: integer
+              minimum: 0
+              maximum: 100
+            download_link:
+              description: Download link for completed results
+              type: string
+              format: uri
+        success:
+          description: Whether the status request was successful
+          type: string
+          enum:
+          - '0'
+          - '1'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api
+      description: API key for authentication
