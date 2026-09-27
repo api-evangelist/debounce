@@ -43,7 +43,21 @@ url: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/a
 created: '2026-06-12'
 modified: '2026-09-16'
 specificationVersion: '0.23'
+x-docs-platform: mintlify
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-25
 tags:
+- Email Verification
+- Deliverability
+- Disposable Email Detection
+- MX Records
+- Bulk Email Validation
+- Data Enrichment
+- Syntax Validation
+- Reverse Email Lookup
+- Logo API
+- A2A
+tags_raw:
 - Email Validation
 - Email Verification
 - Deliverability
@@ -54,6 +68,7 @@ tags:
 - Syntax Validation
 - Reverse Email Lookup
 - Logo API
+- A2A
 apis:
 - aid: debounce:debounce-logo-api
   name: DeBounce Logo API
@@ -261,3 +276,10 @@ x-enrichment:
     archived under openapi/_original/_superseded/. Also found: a conformant A2A agent card, a provider-published
     Agent Skill, two live MCP endpoints, two llms.txt files, and OAuth 2.0 / OIDC / protected-resource
     metadata.'
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://developers.debounce.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3"
+  control: 404

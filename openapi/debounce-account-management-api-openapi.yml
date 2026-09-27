@@ -51,21 +51,6 @@ paths:
                 success: '0'
 components:
   schemas:
-    BalanceResult:
-      type: object
-      required:
-      - success
-      properties:
-        balance:
-          description: Current account balance
-          type: integer
-          minimum: 0
-        success:
-          description: Whether the request was successful
-          type: integer
-          enum:
-          - 0
-          - 1
     Error:
       type: object
       required:
@@ -86,6 +71,21 @@ components:
           type: string
           enum:
           - '0'
+    BalanceResult:
+      type: object
+      required:
+      - success
+      properties:
+        balance:
+          description: Current account balance
+          type: integer
+          minimum: 0
+        success:
+          description: Whether the request was successful
+          type: integer
+          enum:
+          - 0
+          - 1
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
