@@ -54,25 +54,6 @@ paths:
       - Reverse
 components:
   schemas:
-    ReverseResult:
-      type: object
-      required:
-      - success
-      properties:
-        email:
-          description: The email address that was looked up
-          type: string
-          format: email
-        data:
-          description: Additional data found for the email address
-          type: object
-          additionalProperties: true
-        success:
-          description: Whether the lookup was successful
-          type: integer
-          enum:
-          - 0
-          - 1
     Error:
       type: object
       required:
@@ -93,6 +74,25 @@ components:
           type: string
           enum:
           - '0'
+    ReverseResult:
+      type: object
+      required:
+      - success
+      properties:
+        email:
+          description: The email address that was looked up
+          type: string
+          format: email
+        data:
+          description: Additional data found for the email address
+          type: object
+          additionalProperties: true
+        success:
+          description: Whether the lookup was successful
+          type: integer
+          enum:
+          - 0
+          - 1
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
