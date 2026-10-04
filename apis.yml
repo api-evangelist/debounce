@@ -164,6 +164,9 @@ apis:
   - type: OpenAPI
     url: openapi/debounce-usage-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/debounce-capability-edges.yml
+  name: DeBounce Business Capability Map
 - type: Overlay
   url: overlays/debounce-validation-api-overlay.yaml
 - type: Overlay
