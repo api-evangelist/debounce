@@ -97,26 +97,6 @@ paths:
       - Upload
 components:
   schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        debounce:
-          type: object
-          properties:
-            error:
-              type: string
-            code:
-              type: string
-        success:
-          type: string
-          enum:
-          - '0'
     BulkUploadResult:
       type: object
       required:
@@ -137,6 +117,26 @@ components:
           enum:
           - '0'
           - '1'
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        debounce:
+          type: object
+          properties:
+            error:
+              type: string
+            code:
+              type: string
+        success:
+          type: string
+          enum:
+          - '0'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

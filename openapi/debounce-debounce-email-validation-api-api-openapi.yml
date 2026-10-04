@@ -117,26 +117,6 @@ paths:
       - DeBounce Email Validation API
 components:
   schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        debounce:
-          type: object
-          properties:
-            error:
-              type: string
-            code:
-              type: string
-        success:
-          type: string
-          enum:
-          - '0'
     ValidationResult:
       type: object
       required:
@@ -196,6 +176,26 @@ components:
           description: Remaining balance on your account after the current API call.
           type: integer
           example: 4921
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        debounce:
+          type: object
+          properties:
+            error:
+              type: string
+            code:
+              type: string
+        success:
+          type: string
+          enum:
+          - '0'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
