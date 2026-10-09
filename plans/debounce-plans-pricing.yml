@@ -185,3 +185,63 @@ paymentMethods:
   - PayPal
   - Bitcoin
   - 40+ additional payment options by location
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Free Starter
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: 5K Credits
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: 50K Credits
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: 100K Credits
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: 200K Credits
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: 500K Credits
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: 1M Credits
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: 2M Credits
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: 5M Credits
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
