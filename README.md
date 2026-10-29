@@ -1,4 +1,4 @@
-# DeBounce (debounce)
+# DeBounce
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,62 +64,203 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-DeBounce is an email validation and verification REST API that helps developers ensure the deliverability and quality of email addresses at scale. The API supports real-time single email validation, asynchronous bulk list processing, and data enrichment via reverse email lookup. It detects disposable addresses, role-based emails, catch-all domains, syntax errors, and performs MX record and SMTP-level mailbox verification. DeBounce offers pay-as-you-go credit-based pricing with no monthly subscription required, full API access at every tier, and credits that never expire.
+DeBounce is an email validation and verification REST API that helps developers ensure the deliverability and quality of email addresses at scale. The API supports real-time single email validation, asynchronous bulk list processing, and data enrichment via reverse email lookup. It detects disposable addresses, role-based emails, catch-all domains, syntax errors, and performs MX record and SMTP-level mailbox verification. DeBounce offers pay-as-you-go credit-based pricing with no monthly subscription required, full API access at every tier, and credits that never expire. The surface is split across four hosts — api.debounce.io for validation, enrichment and account operations, bulk.debounce.io for asynchronous list jobs, disposable.debounce.io for the free disposable detector, and logo.debounce.com for the free company logo lookup — and DeBounce publishes OpenAPI 3.1.0, llms.txt, an A2A agent card, an agent skill and a remote MCP server from its developer portal.
 
-- **APIs.json**: https://raw.githubusercontent.com/api-evangelist/debounce/refs/heads/main/apis.yml
-- **Naftiko**: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=debounce-api-evangelist&utm_content=repo
+**Areas:** Email Verification · Deliverability · Disposable Email Detection · MX Records · Bulk Email Validation · Data Enrichment · Syntax Validation · Reverse Email Lookup · Logo API · A2A
 
-## Tags
+## DeBounce on APIs.io
 
-- Email Validation
-- Email Verification
-- Deliverability
-- Disposable Email Detection
-- MX Records
-- Bulk Email Validation
-- Data Enrichment
-- Syntax Validation
+Everything profiled for DeBounce is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/debounce/](https://apis.io/providers/debounce/)** — or go straight to one of the APIs or properties below.
 
-## APIs
+### APIs (8)
 
-| Name | Description | Docs |
-|------|-------------|------|
-| DeBounce Email Validation API | Real-time and bulk email address verification, deliverability checks, disposable/role-based detection, MX record validation, SMTP verification, data enrichment, and disposable domain detection. | [Documentation](https://developers.debounce.com/) |
+- [DeBounce Logo API](https://apis.io/apis/debounce/debounce-logo-api/) — Free company logo lookup service positioned as a drop-in replacement for the deprecated Clearbit Logo API. A GET against logo.debounce.com with a company…
+- [DeBounce Account Management API](https://apis.io/apis/debounce/debounce-account-management-api/) — The Account Management API from DeBounce — 1 operation(s) for account management.
+- [DeBounce Disposable Email Detector API](https://apis.io/apis/debounce/debounce-debounce-disposable-email-detector-api-api/) — The DeBounce Disposable Email Detector API API from DeBounce — 1 operation(s) for debounce disposable email detector api.
+- [DeBounce Email Validation API](https://apis.io/apis/debounce/debounce-debounce-email-validation-api-api/) — The DeBounce Email Validation API API from DeBounce — 1 operation(s) for debounce email validation api.
+- [DeBounce Reverse API](https://apis.io/apis/debounce/debounce-reverse-api/) — The Reverse API from DeBounce — 1 operation(s) for reverse.
+- [DeBounce Status API](https://apis.io/apis/debounce/debounce-status-api/) — The Status API from DeBounce — 1 operation(s) for status.
+- [DeBounce Upload API](https://apis.io/apis/debounce/debounce-upload-api/) — The Upload API from DeBounce — 1 operation(s) for upload.
+- [DeBounce Usage API](https://apis.io/apis/debounce/debounce-usage-api/) — The Usage API from DeBounce — 1 operation(s) for usage.
 
-## Plans / Rate Limits / FinOps
+### Published properties
 
-| Resource | File |
-|----------|------|
-| Plans & Pricing | [plans/debounce-plans-pricing.yml](plans/debounce-plans-pricing.yml) |
-| Rate Limits | [rate-limits/debounce-rate-limits.yml](rate-limits/debounce-rate-limits.yml) |
-| FinOps | [finops/debounce-finops.yml](finops/debounce-finops.yml) |
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-**Pricing summary:** Pay-as-you-go credits from $0.002/email (5K pack) to $0.00035/email (5M pack). 100 free credits on signup. Credits never expire. No monthly subscription required.
+#### MCP servers (1)
 
-**Rate limits summary:** Private API keys support 5 concurrent requests (2 with data enrichment enabled). Public keys limited to 20 validations per IP per day. One bulk validation job active per account at a time.
+Model Context Protocol servers that expose the API to agents.
 
-## Timestamps
+- [debounce-mcp.yml](https://apis.io/servers/debounce/debounce-mcp-yml/)
 
-| Field | Value |
-|-------|-------|
-| Created | 2026-06-12 |
-| Modified | 2026-06-12 |
+#### Agentic access (1)
 
-## Common
+Which operations an agent can call, which act, and which need a human in the loop.
 
-| Type | URL |
-|------|-----|
-| Website | https://debounce.com/ |
-| Documentation | https://developers.debounce.com/ |
-| GitHub Org | https://github.com/debounceio |
-| LinkedIn | https://www.linkedin.com/company/debounceio |
-| Blog | https://debounce.com/blog/ |
-| Pricing | https://debounce.com/pricing/ |
-| Status Page | https://status.debounce.com/ |
-| X | https://x.com/debounceio |
+- [Debounce Agentic Access](https://apis.io/agentic-access/debounce/debounce-agentic-access/)
 
-## Maintainers
+#### JSON Schema (1)
 
-| Name | Email |
-|------|-------|
-| Kin Lane | kin@apievangelist.com |
+The data models the API reads and writes.
+
+- [DeBounce Validation Result](https://apis.io/schemas/debounce/debounce-validation-result/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Debounce Context](https://apis.io/jsonld/debounce/debounce-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [DeBounce Email Validation API Vocabulary](https://apis.io/vocabularies/debounce/debounce-vocabulary/)
+
+#### Examples (1)
+
+Example requests and responses.
+
+- [Debounce Single Validation Example](https://apis.io/examples/debounce/debounce-single-validation-example/)
+
+#### Collections (9)
+
+Postman and Open Collection request collections.
+
+- [DeBounce Email Validation API — Account](https://apis.io/collections/debounce/open-debounce-account-api/)
+- [DeBounce Bulk Email Validation API](https://apis.io/collections/debounce/open-debounce-bulk-api/)
+- [DeBounce Email Validation API — Data Enrichment](https://apis.io/collections/debounce/open-debounce-data-api/)
+- [DeBounce Disposable Email Detector API](https://apis.io/collections/debounce/open-debounce-disposable-api/)
+- [DeBounce Email Validation API — Single Validation](https://apis.io/collections/debounce/open-debounce-validation-api/)
+- [DeBounce Email Validation Account API](https://apis.io/collections/debounce/postman-debounce-account-api/)
+- [DeBounce Email Validation Account Bulk API](https://apis.io/collections/debounce/postman-debounce-bulk-api/)
+- [DeBounce Email Validation Account Data API](https://apis.io/collections/debounce/postman-debounce-data-api/)
+- [DeBounce Email Account Validation API](https://apis.io/collections/debounce/postman-debounce-validation-api/)
+
+#### Overlays (12)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Debounce Account Api Overlay](https://apis.io/overlays/debounce/debounce-account-api-overlay/)
+- [Debounce Account Management Api Phrasing Overlay](https://apis.io/overlays/debounce/debounce-account-management-api-phrasing-overlay/)
+- [Debounce Bulk Api Overlay](https://apis.io/overlays/debounce/debounce-bulk-api-overlay/)
+- [Debounce Data Api Overlay](https://apis.io/overlays/debounce/debounce-data-api-overlay/)
+- [Debounce Debounce Disposable Email Detector Api Api Phrasing Overlay](https://apis.io/overlays/debounce/debounce-debounce-disposable-email-detector-api-api-phrasing-overlay/)
+- [Debounce Debounce Email Validation Api Api Phrasing Overlay](https://apis.io/overlays/debounce/debounce-debounce-email-validation-api-api-phrasing-overlay/)
+- [Debounce Disposable Api Overlay](https://apis.io/overlays/debounce/debounce-disposable-api-overlay/)
+- [Debounce Reverse Api Phrasing Overlay](https://apis.io/overlays/debounce/debounce-reverse-api-phrasing-overlay/)
+- [Debounce Status Api Phrasing Overlay](https://apis.io/overlays/debounce/debounce-status-api-phrasing-overlay/)
+- [Debounce Upload Api Phrasing Overlay](https://apis.io/overlays/debounce/debounce-upload-api-phrasing-overlay/)
+- [Debounce Usage Api Phrasing Overlay](https://apis.io/overlays/debounce/debounce-usage-api-phrasing-overlay/)
+- [Debounce Validation Api Overlay](https://apis.io/overlays/debounce/debounce-validation-api-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [DeBounce — jsonschema rules](https://apis.io/rules/debounce/debounce-jsonschema-spectral-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Debounce Authentication](https://apis.io/security/debounce/debounce-authentication/)
+- [Debounce Domain Security](https://apis.io/security/debounce/debounce-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Debounce Scopes](https://apis.io/scopes/debounce/debounce-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Debounce Plans Pricing](https://apis.io/plans/debounce/debounce-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Debounce Rate Limits](https://apis.io/rate-limits/debounce/debounce-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Debounce Finops](https://apis.io/finops/debounce/debounce-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://debounce.com/)
+- [Documentation](https://developers.debounce.com/)
+- [Getting started](https://developers.debounce.com/)
+- [API reference](https://developers.debounce.com/api-reference/endpoint/single-validation)
+- [Pricing](https://debounce.com/pricing/)
+- [Sign up](https://app.debounce.com/register)
+- [Support](https://help.debounce.com/)
+- [Changelog](https://feedback.debounce.com/changelog)
+- [Blog](https://debounce.com/blog/)
+- [Compliance](https://debounce.com/gdpr/)
+- [Terms of service](https://debounce.com/terms-of-use/)
+- [Privacy policy](https://debounce.com/privacy-policy/)
+- [GitHub](https://github.com/debounceio)
+- [Status](https://status.debounce.com/)
+
+## API Evangelist rating
+
+**Kin Score 68.8** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 80.0 |
+| Contract quality | 53.8 |
+| Contract governance | 41.7 |
+| Operational transparency | 63.2 |
+| Developer ergonomics | 68.6 |
+| Access clarity | 84.2 |
+
+**Agent readiness 60.8** — agent-native
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | na |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 39.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/debounce/](https://apis.io/providers/debounce/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for DeBounce: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/debounce/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
